@@ -7,34 +7,49 @@ document.addEventListener("DOMContentLoaded", function() {
   const htmlRequestLinkButton = document.getElementById('request-link-button');
   const htmlISbookmarksDynamicContainer = document.getElementById('is-bookmarks-dynamic-container');
 
+  let bookmarkDb;
+  let previous_request;
+
   htmlSearchLinkInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      handleSearch();
+      initializeSearchOrRequest("Search");
     }
   });
   htmlRequestLinkInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-      handleRequest();
+      initializeSearchOrRequest("Request");
     }
   });
-  htmlSearchLinkButton.addEventListener('click', handleSearch);
-  htmlRequestLinkButton.addEventListener('click', handleRequest);
+  htmlSearchLinkButton.addEventListener('click', function() {
+    initializeSearchOrRequest("Search");
+  });
+  htmlRequestLinkButton.addEventListener('click', function() {
+    initializeSearchOrRequest("Request");
+  });
 
 
-  async function handleSearch() {
+  async function initializeSearchOrRequest(type) {
 
-    const userSearch = htmlSearchLinkInput.value;
-    const sanitizedUserSearch = DOMPurify.sanitize(userSearch, { USE_PROFILES: { html: true } });
-    const formatedUserSearch = stripNewlinesAndWhitespace(sanitizedUserSearch);
+    if (!bookmarkDb) {
+      bookmarkDb = await fetchISdatabase();
+    }
+
+    if (type === "Search") {
+      handleSearch(bookmarkDb);
+    } else if (type === "Request") {
+      handleRequest(bookmarkDb);
+    }
+  }
+
+
+  async function handleSearch(bookmarkDb) {
+
+    const formatedUserSearch = stripNewlinesAndWhitespace(sanitizeString(htmlSearchLinkInput.value));
     const formatedUserSearchLowerCase = formatedUserSearch.toLowerCase();
-
-    const bookmarkDb = await fetchISdatabase();
-
-    htmlISbookmarksDynamicContainer.classList.remove('navigation');
-    htmlISbookmarksDynamicContainer.classList.add('search');
 
     const foldersResults = [];
     const linksResults = [];
+
     let htmlOutput = "";
 
     await processDatabase(bookmarkDb, entry => {
@@ -132,36 +147,26 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
+    htmlISbookmarksDynamicContainer.classList.remove('navigation');
+    htmlISbookmarksDynamicContainer.classList.add('search');
     htmlISbookmarksDynamicContainer.innerHTML = htmlOutput;
 
     const htmlFormatedUserSearch = document.getElementById('formated-user-search');
-    htmlFormatedUserSearch.textContent = formatedUserSearch;
+    if (htmlFormatedUserSearch) {
+      htmlFormatedUserSearch.textContent = formatedUserSearch;
+    }
 
   }
 
-  async function handleRequest() {
+  async function handleRequest(bookmarkDb) {
 
-    function formatUserInputToURL(userInput) {
-      if (userInput.startsWith("http://") || userInput.startsWith("https://")) {
-        return userInput;
-      } else {
-        return `http://${userInput}`;
-      }
-    }
-
-    const userRequest = htmlRequestLinkInput.value;
-    const sanitizedUserRequest = DOMPurify.sanitize(userRequest, { USE_PROFILES: { html: true } });
-    const formatedUserRequest = stripNewlinesAndWhitespace(sanitizedUserRequest);
+    const formatedUserRequest = stripNewlinesAndWhitespace(sanitizeString(htmlRequestLinkInput.value));
     const formatedUserRequestLowerCase = formatedUserRequest.toLowerCase();
     const formatedUserRequestLink = formatUserInputToURL(formatedUserRequest);
 
-    const bookmarkDb = await fetchISdatabase();
-
-    htmlISbookmarksDynamicContainer.classList.remove('navigation');
-    htmlISbookmarksDynamicContainer.classList.add('request');
-
     const linksMatchResults = [];
     const linksContainsResults = [];
+
     let htmlOutput = "";
 
     await processDatabase(bookmarkDb, entry => {
@@ -279,6 +284,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
+    htmlISbookmarksDynamicContainer.classList.remove('navigation');
+    htmlISbookmarksDynamicContainer.classList.add('request');
     htmlISbookmarksDynamicContainer.innerHTML = htmlOutput;
 
     const elementIds = ['formated-user-request-1', 'formated-user-request-2', 'formated-user-request-3'];
@@ -288,6 +295,10 @@ document.addEventListener("DOMContentLoaded", function() {
         element.textContent = formatedUserRequest;
       }
     });
+
+    if (previous_request === formatedUserRequestLowerCase) {
+      return;
+    }
 
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
@@ -305,6 +316,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     makeWebRequest("https://eowgt2c6txqik7b.m.pipedream.net", requestOptions)
+
+    previous_request = formatedUserRequestLowerCase;
 
   }
 });
@@ -444,6 +457,10 @@ function isResponseUp(response) {
   return false;
 }
 
+function sanitizeString(str) {
+  return DOMPurify.sanitize(str, { USE_PROFILES: { html: true } });
+}
+
 function stripNewlinesAndWhitespace(str) {
   return str.replace(/^\s+|\s+$/g, '');
 }
@@ -454,4 +471,12 @@ function formatLink(link) {
 
 function formatPathLink(pathArray) {
   return `<a href="/Illegal_Services/${encodeURI(pathArray.join('/'))}/index.html">${pathArray.join('/')}</a>`;
+}
+
+function formatUserInputToURL(userInput) {
+  if (userInput.startsWith("http://") || userInput.startsWith("https://")) {
+    return userInput;
+  } else {
+    return `http://${userInput}`;
+  }
 }
