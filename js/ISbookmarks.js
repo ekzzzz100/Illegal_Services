@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   async function handleSearch(bookmarkDb) {
 
-    const formatedUserSearch = stripNewlinesAndWhitespace(sanitizeString(htmlSearchLinkInput.value));
+    const _ = sanitizeString(htmlSearchLinkInput.value)
+    const formatedUserSearch = stripNewlinesAndWhitespace(htmlSearchLinkInput.value);
     const formatedUserSearchLowerCase = formatedUserSearch.toLowerCase();
 
     const foldersResults = [];
@@ -160,7 +161,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   async function handleRequest(bookmarkDb) {
 
-    const formatedUserRequest = stripNewlinesAndWhitespace(sanitizeString(htmlRequestLinkInput.value));
+    const _ = sanitizeString(htmlRequestLinkInput.value)
+    const formatedUserRequest = stripNewlinesAndWhitespace(htmlRequestLinkInput.value);
     const formatedUserRequestLowerCase = formatedUserRequest.toLowerCase();
     const formatedUserRequestLink = formatUserInputToURL(formatedUserRequest);
 
