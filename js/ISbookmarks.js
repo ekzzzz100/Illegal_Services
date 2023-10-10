@@ -57,14 +57,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (entry.title.toLowerCase().includes(formatedUserSearchLowerCase)) {
           foldersResults.push({
             path: formatPathLink(entry.path.slice(0, -1)),
-            title: entry.title
+            title: encodeHtmlEntityEncoding(entry.title)
           });
         }
       } else if (entry.type === 'LINK') {
         if (entry.title.toLowerCase().includes(formatedUserSearchLowerCase) || entry.url.toLowerCase().includes(formatedUserSearchLowerCase)) {
           linksResults.push({
             path: formatPathLink(entry.path),
-            title: entry.title,
+            title: encodeHtmlEntityEncoding(entry.title),
             url: formatLink(entry.url)
           });
         }
@@ -151,9 +151,9 @@ document.addEventListener("DOMContentLoaded", function() {
     htmlISbookmarksDynamicContainer.classList.add('search');
     htmlISbookmarksDynamicContainer.innerHTML = htmlOutput;
 
-    const htmlFormatedUserSearch = document.getElementById('formated-user-search');
-    if (htmlFormatedUserSearch) {
-      htmlFormatedUserSearch.textContent = formatedUserSearch;
+    const element = document.getElementById('formated-user-search');
+    if (element) {
+      element.textContent = formatedUserSearch;
     }
 
   }
@@ -175,13 +175,13 @@ document.addEventListener("DOMContentLoaded", function() {
           if (entry.url.toLowerCase() === formatedUserRequestLowerCase) {
             linksMatchResults.push({
               path: formatPathLink(entry.path),
-              title: entry.title,
+              title: encodeHtmlEntityEncoding(entry.title),
               url: formatLink(entry.url)
             });
           } else {
             linksContainsResults.push({
               path: formatPathLink(entry.path),
-              title: entry.title,
+              title: encodeHtmlEntityEncoding(entry.title),
               url: formatLink(entry.url)
             });
           }
@@ -217,13 +217,13 @@ document.addEventListener("DOMContentLoaded", function() {
       if (linksMatchResults.length === 0 && linksContainsResults.length === 0) {
         htmlOutput += `
         <div class="indexed-or-not">
-            Link: "<a href="${encodeURI(formatedUserRequestLink)}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
+            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
         </div>`;
       } else {
         if (linksMatchResults.length > 0) {
           htmlOutput += `
         <div class="indexed-or-not">
-            Link: "<a href="${encodeURI(formatedUserRequestLink)}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
+            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
         </div>
         <br>
         <table>
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (linksContainsResults.length > 0) {
           htmlOutput += `
         <div class="indexed-or-not">
-            Link: "<a href="${encodeURI(formatedUserRequestLink)}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
+            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
         </div>
         <br>
         <table>
@@ -358,27 +358,6 @@ async function fetchISdatabase() {
  * @returns {Promise<void>}
  */
 async function processDatabase(bookmarkDb, callback) {
-
-  /**
-   * Function that decodes HTML entities from a given string.
-   *
-   * This is required because when exporting bookmarks from Firefox, certain special characters (such as [`<`, `>`, `"`, `'`, `&`]) in bookmark titles are encoded during the export process.
-   * @param {string} string - The encoded string.
-   * @returns {string} The decoded string.
-   */
-  function decodeHtmlEntityEncoding(string) {
-    return string.replace(/&amp;|&quot;|&#39;|&lt;|&gt;/g, function (match) {
-    switch (match) {
-      case "&lt;": return "<";
-      case "&gt;": return ">";
-      case "&quot;": return "\"";
-      case "&#39;": return "'";
-      case "&amp;": return "&";
-      default: return match;
-    }
-    });
-  }
-
   const path = []
 
   for (const entry of bookmarkDb) {
@@ -457,6 +436,113 @@ function isResponseUp(response) {
   return false;
 }
 
+function encodeUnicodeEncoding(string) {
+  const replacements = {
+    '\\': 'U+005C',
+    '/': 'U+002F',
+    ':': 'U+003A',
+    '*': 'U+002A',
+    '?': 'U+003F',
+    '"': 'U+0022',
+    '<': 'U+003C',
+    '>': 'U+003E',
+    '|': 'U+007C',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
+function decodeUnicodeEncoding(string) {
+  const replacements = {
+    'U+005C': '\\',
+    'U+002F': '/',
+    'U+003A': ':',
+    'U+002A': '*',
+    'U+003F': '?',
+    'U+0022': '"',
+    'U+003C': '<',
+    'U+003E': '>',
+    'U+007C': '|',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
+function encodeHtmlEntityEncoding(string) {
+  const replacements = {
+    '&': '&amp;',
+    '"': '&quot;',
+    '\'': '&#39;',
+    '<': '&lt;',
+    '>': '&gt;',
+    ' ': '&nbsp;',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
+function decodeHtmlEntityEncoding(string) {
+  const replacements = {
+    '&amp;': '&',
+    '&quot;': '"',
+    '&#39;': '\'',
+    '&lt;': '<',
+    '&gt;': '>',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
+function encodeUrlEncoding(string) {
+  const replacements = {
+    '%': '%25',
+    ' ': '%20',
+    '[': '%5B',
+    ']': '%5D',
+    '{': '%7B',
+    '}': '%7D',
+    '^': '%5E',
+    '`': '%60',
+    '#': '%23',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
+function decodeUrlEncoding(string) {
+  const replacements = {
+    '%25': '%',
+    '%20': ' ',
+    '%5B': '[',
+    '%5D': ']',
+    '%7B': '{',
+    '%7D': '}',
+    '%5E': '^',
+    '%60': '`',
+    '%23': '#',
+  };
+  for (const chars in replacements) {
+    const replacement = replacements[chars];
+    string = string.split(chars).join(replacement);
+  }
+  return string;
+}
+
 function sanitizeString(str) {
   return DOMPurify.sanitize(str, { USE_PROFILES: { html: true } });
 }
@@ -466,11 +552,15 @@ function stripNewlinesAndWhitespace(str) {
 }
 
 function formatLink(link) {
-  return `<a href="${encodeURI(link)}">${link}</a>`;
+  const href_link = encodeUrlEncoding(decodeUrlEncoding(link));
+  const text_link = encodeHtmlEntityEncoding(decodeHtmlEntityEncoding(link));
+  return `<a href="${href_link}">${text_link}</a>`;
 }
 
 function formatPathLink(pathArray) {
-  return `<a href="/Illegal_Services/${encodeURI(pathArray.join('/'))}/index.html">${pathArray.join('/')}</a>`;
+  const href_link = encodeUrlEncoding(decodeUrlEncoding(pathArray.map(item => encodeUnicodeEncoding(item)).join('/')));
+  const text_link = encodeHtmlEntityEncoding(decodeHtmlEntityEncoding(pathArray.join('/')));
+  return `<a href="/Illegal_Services/${href_link}/index.html">${text_link}</a>`;
 }
 
 function formatUserInputToURL(userInput) {
