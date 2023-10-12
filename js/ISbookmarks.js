@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", function() {
   const htmlSearchLinkButton = document.getElementById('search-link-button');
   const htmlRequestLinkInput = document.getElementById('request-link-input');
   const htmlRequestLinkButton = document.getElementById('request-link-button');
-  const htmlISbookmarksDynamicContainer = document.getElementById('is-bookmarks-dynamic-container');
+  const htmlOverlayContainer = document.getElementById('overlay-container');
+  const htmlOverlayContent = document.getElementById('overlay-content');
+  const htmlOverlayCloseButton = document.getElementById('overlay-close-button');
 
   let bookmarkDb;
   let previous_request;
@@ -26,7 +28,32 @@ document.addEventListener("DOMContentLoaded", function() {
   htmlRequestLinkButton.addEventListener('click', function() {
     initializeSearchOrRequest("Request");
   });
+  htmlOverlayCloseButton.addEventListener('click', function() {
+    hideOverlay()
+  });
+  // Close the overlay when clicking outside of the content area
+  htmlOverlayContainer.addEventListener("click", (event) => {
+    if (event.target === htmlOverlayContainer) {
+        hideOverlay();
+    }
+  });
+  // Close the overlay when the "Escape" key is pressed
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        hideOverlay();
+    }
+  });
 
+
+  function showOverlay() {
+    htmlOverlayContainer.style.display = "flex";
+    document.body.style.overflow = "hidden"; // Prevent scrolling on the background
+  }
+
+  function hideOverlay() {
+    htmlOverlayContainer.style.display = "none";
+    document.body.style.overflow = "auto"; // Allow scrolling on the background
+  }
 
   async function initializeSearchOrRequest(type) {
 
@@ -40,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
       handleRequest(bookmarkDb);
     }
   }
-
 
   async function handleSearch(bookmarkDb) {
 
@@ -148,9 +174,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    htmlISbookmarksDynamicContainer.classList.remove('navigation');
-    htmlISbookmarksDynamicContainer.classList.add('search');
-    htmlISbookmarksDynamicContainer.innerHTML = htmlOutput;
+    showOverlay()
+    htmlOverlayContent.innerHTML = htmlOutput;
 
     const element = document.getElementById('formated-user-search');
     if (element) {
@@ -286,9 +311,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    htmlISbookmarksDynamicContainer.classList.remove('navigation');
-    htmlISbookmarksDynamicContainer.classList.add('request');
-    htmlISbookmarksDynamicContainer.innerHTML = htmlOutput;
+    showOverlay()
+    htmlOverlayContent.innerHTML = htmlOutput;
 
     const elementIds = ['formated-user-request-1', 'formated-user-request-2', 'formated-user-request-3'];
     elementIds.forEach((elementId) => {
@@ -307,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const body = {
       "link": formatedUserRequest, // TODO: I can't see it in the email lmfao.. but why? would be nice to investigate that later.
-      "html": htmlISbookmarksDynamicContainer.innerHTML // TODO: inject css in .innerHTML
+      "html": htmlOverlayContent.innerHTML // TODO: inject css in .innerHTML
     }
 
     const requestOptions = {

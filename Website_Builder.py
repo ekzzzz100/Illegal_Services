@@ -207,7 +207,6 @@ def write_footer() -> None:
                             </div>
                         </noscript>
                     </div>
-
                 </div>
 
                 <footer>
