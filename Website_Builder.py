@@ -173,12 +173,11 @@ def write_html_header() -> None:
                     </div>
                 </div>
 
-                <div id="is-bookmarks-dynamic-container" class="navigation">
-                    <div class="pathbar notranslate">
-                        {display_pathbar}
-                    </div>
+                <div class="pathbar notranslate">
+                    {display_pathbar}
+                </div>
 
-                    <div class="vertical-menu notranslate">
+                <div class="vertical-menu notranslate">
         """
         text = textwrap.dedent(text).removeprefix("\n")
         file.write(text)
@@ -195,17 +194,25 @@ def write_html_header() -> None:
 def write_footer() -> None:
     with open(windows_href_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
         text = """
-                    </div>
+                </div>
 
-                    <div class="counter">
-                        <script src="/Illegal_Services/js/counter.js"></script>
-                        <noscript>
-                            <div class="javascript-disabled">
-                                <img src="/Illegal_Services/icons/no_js.png" alt="no_js.png">
-                                JavaScript disabled in your browser;<br>
-                                can't display the counter informations.
-                            </div>
-                        </noscript>
+                <div class="counter">
+                    <script src="/Illegal_Services/js/counter.js"></script>
+                    <noscript>
+                        <div class="javascript-disabled">
+                            <img src="/Illegal_Services/icons/no_js.png" alt="no_js.png">
+                            JavaScript disabled in your browser;<br>
+                            can't display the counter informations.
+                        </div>
+                    </noscript>
+                </div>
+
+                <div id="overlay-container">
+                    <div id="overlay">
+                        <button id="overlay-close-button">Close</button>
+                        <div id="overlay-content">
+                            <!-- JavaScript overlay content goes here -->
+                        </div>
                     </div>
                 </div>
 

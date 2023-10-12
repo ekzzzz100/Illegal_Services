@@ -81,24 +81,6 @@ div.javascript-disabled > img {
     margin-left: 15px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Styling for the overlay container */
 #overlay-container {
     display: none;
@@ -179,28 +161,6 @@ div.javascript-disabled > img {
     color: red;
     font-size: 30px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @media screen and (max-width: 1000px) {

@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function() {
   function hideOverlay() {
     htmlOverlayContainer.style.display = "none";
     document.body.style.overflow = "auto"; // Allow scrolling on the background
+    htmlOverlayContent.innerHTML = `
+                <!-- JavaScript overlay content goes here -->
+            `;
   }
 
   async function initializeSearchOrRequest(type) {
@@ -101,76 +104,76 @@ document.addEventListener("DOMContentLoaded", function() {
     if (DOMPurify.removed.length !== 0) {
       console.log(DOMPurify.removed);
       htmlOutput += `
-        <hr>
-        <h1>
-            Nice try, hacker!
-            <br>
-            🕵️ Keep sprinkling your magic XSS dust, but this website's got a shield! 🛡️
-            <br>
-            😄😘😘
-        </h1>
-        <hr>`;
+                <hr>
+                <h1>
+                    Nice try, hacker!
+                    <br>
+                    🕵️ Keep sprinkling your magic XSS dust, but this website's got a shield! 🛡️
+                    <br>
+                    😄😘😘
+                </h1>
+                <hr>`;
 
     } else {
 
       if (foldersResults.length === 0 && linksResults.length === 0) {
         htmlOutput += `
-        <hr>
-        <h1>Search: "<span id="formated-user-search"></span>" is not indexed in IS database.</h1>
-        <hr>`;
+                <hr>
+                <h1>Search: "<span id="formated-user-search"></span>" is not indexed in IS database.</h1>
+                <hr>`;
       } else {
         htmlOutput = `
-        <hr>
-        <h1>Search: "<span id="formated-user-search"></span>" was found indexed in IS database, in location(s):</h1>
-        <hr>
-        <br>`;
+                <hr>
+                <h1>Search: "<span id="formated-user-search"></span>" was found indexed in IS database, in location(s):</h1>
+                <hr>
+                <br>`;
       }
 
       if (foldersResults.length !== 0) {
         htmlOutput += `
-        <table>
-            <tbody>
-                <tr>
-                    <th>HREF</th>
-                    <th>NAME</th>
-                </tr>`;
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>HREF</th>
+                            <th>NAME</th>
+                        </tr>`;
         for (const entry of foldersResults) {
           htmlOutput += `
-                <tr>
-                    <td>${entry.path}</td>
-                    <td>${entry.title}</td>
-                </tr>`;
+                        <tr>
+                            <td>${entry.path}</td>
+                            <td>${entry.title}</td>
+                        </tr>`;
         }
         htmlOutput += `
-            </tbody>
-        </table>`;
+                    </tbody>
+                </table>`;
         if (linksResults.length !== 0) {
           htmlOutput += `
-        <br>`;
+                <br>`;
         }
       }
 
       if (linksResults.length !== 0) {
         htmlOutput += `
-        <table>
-            <tbody>
-                <tr>
-                    <th>HREF</th>
-                    <th>LINK</th>
-                    <th>NAME</th>
-                </tr>`;
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>HREF</th>
+                            <th>LINK</th>
+                            <th>NAME</th>
+                        </tr>`;
         for (const entry of linksResults) {
           htmlOutput += `
-                <tr>
-                    <td>${entry.path}</td>
-                    <td>${entry.url}</td>
-                    <td>${entry.title}</td>
-                </tr>`;
+                        <tr>
+                            <td>${entry.path}</td>
+                            <td>${entry.url}</td>
+                            <td>${entry.title}</td>
+                        </tr>`;
         }
         htmlOutput += `
-            </tbody>
-        </table>
-    `;
+                    </tbody>
+                </table>
+            `;
       }
     }
 
@@ -219,93 +222,89 @@ document.addEventListener("DOMContentLoaded", function() {
     if (DOMPurify.removed.length !== 0) {
       console.log(DOMPurify.removed);
       htmlOutput += `
-        <hr>
-        <h1>
-            Nice try, hacker!
-            <br>
-            🕵️ Keep sprinkling your magic XSS dust, but this website's got a shield! 🛡️
-            <br>
-            😄😘😘
-        </h1>
-        <hr>`;
+                <hr>
+                <h1>
+                    Nice try, hacker!
+                    <br>
+                    🕵️ Keep sprinkling your magic XSS dust, but this website's got a shield! 🛡️
+                    <br>
+                    😄😘😘
+                </h1>
+                <hr>`;
 
     } else {
 
       htmlOutput += `
-        <h1>
-            <hr>
-            Thank you for contributing to IS database!
-            <br>
-            We will manually review your request as soon as possible.
-            <br>
-            <hr>
-        </h1>`;
+                <h1>
+                    <hr>
+                    Thank you for contributing to IS database!
+                    <br>
+                    We will manually review your request as soon as possible.
+                    <br>
+                    <hr>
+                </h1>`;
 
       if (linksMatchResults.length === 0 && linksContainsResults.length === 0) {
         htmlOutput += `
-        <div class="indexed-or-not">
-            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
-        </div>`;
+                <div class="indexed-or-not">
+                    Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
+                </div>`;
       } else {
         if (linksMatchResults.length > 0) {
           htmlOutput += `
-        <div class="indexed-or-not">
-            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
-        </div>
-        <br>
-        <table>
-            <tbody>
-                <tr>
-                    <th>HREF</th>
-                    <th>LINK</th>
-                    <th>NAME</th>
-                </tr>`;
+                <div class="indexed-or-not">
+                    Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
+                </div>
+                <br>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>HREF</th>
+                            <th>LINK</th>
+                            <th>NAME</th>
+                        </tr>`;
           for (const entry of linksMatchResults) {
             htmlOutput += `
-                <tr>
-                    <td>${entry.path}</td>
-                    <td>${entry.url}</td>
-                    <td>${entry.title}</td>
-                </tr>`;
+                        <tr>
+                            <td>${entry.path}</td>
+                            <td>${entry.url}</td>
+                            <td>${entry.title}</td>
+                        </tr>`;
           }
           htmlOutput += `
-            </tbody>
-        </table>`;
+                    </tbody>
+                </table>`;
           if (linksContainsResults.length !== 0) {
             htmlOutput += `
-        <br>`;
+                <br>`;
           }
         }
 
         if (linksContainsResults.length > 0) {
           htmlOutput += `
-        <div class="indexed-or-not">
-            Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
-        </div>
-        <br>
-        <table>
-            <tbody>
-                <tr>
-                    <th>HREF</th>
-                    <th>LINK</th>
-                    <th>NAME</th>
-                </tr>`;
+                <div class="indexed-or-not">
+                    Link: "<a href="${encodeUrlEncoding(decodeUrlEncoding(formatedUserRequestLink))}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
+                </div>
+                <br>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>HREF</th>
+                            <th>LINK</th>
+                            <th>NAME</th>
+                        </tr>`;
           for (const entry of linksContainsResults) {
             htmlOutput += `
-                <tr>
-                    <td>${entry.path}</td>
-                    <td>${entry.url}</td>
-                    <td>${entry.title}</td>
-                </tr>`;
+                        <tr>
+                            <td>${entry.path}</td>
+                            <td>${entry.url}</td>
+                            <td>${entry.title}</td>
+                        </tr>`;
           }
           htmlOutput += `
-            </tbody>
-        </table>`;
-          if (linksContainsResults.length !== 0) {
-            htmlOutput += `
-        <br>
-    `;
-          }
+                    </tbody>
+                </table>
+            `;
         }
 
       }
