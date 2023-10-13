@@ -1,8 +1,17 @@
+div.h4-simulation {
+    display: block;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
 div.search-or-request-container {
     text-align: center;
     margin: 20px auto;
 }
-div.search-or-request {
+div.search-or-request-container > div.search-or-request {
     display: inline-block;
     color: #ffffff;
     padding: 0px 10px 4px 10px;
@@ -14,6 +23,31 @@ div.search-or-request {
     max-width: 330px;
     max-height: 100px;
     font-size: 16px;
+}
+div.search-or-request-container > div.search-or-request > div.h4-simulation > div.input-container {
+    position: relative;
+    display: inline-block;
+}
+div.search-or-request-container > div.search-or-request > div.h4-simulation > div.input-container > input.clearable-input {
+    width: fit-content;
+    padding: 2px 30px 2px 4px;
+}
+div.search-or-request-container > div.search-or-request > div.h4-simulation > div.input-container > span.clear-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+
+    color: #494c4e;
+    text-shadow: none;
+    font-weight: normal;
+}
+div.search-or-request-container > div.search-or-request > div.h4-simulation > div.input-container > input.clearable-input:focus
++ div.search-or-request-container > div.search-or-request > div.h4-simulation > div.input-container > span.clear-button {
+    display: block;
 }
 
 div.pathbar {

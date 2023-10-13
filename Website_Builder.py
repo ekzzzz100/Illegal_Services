@@ -156,20 +156,26 @@ def write_html_header() -> None:
 
                 <div class="search-or-request-container">
                     <div class="search-or-request">
-                        <h4>Search a link or folder in IS database:
+                        <div class="h4-simulation">Search a link or folder in IS database:
                             <br>
                             <br>
-                            <input type="text" name="search_link" id="search-link-input" placeholder="https://example.com/">
+                            <div class="input-container">
+                                <input type="text" name="search_link" class="clearable-input" id="search-link-input" placeholder="https://example.com/">
+                                <span class="clear-button" id="clear-search-link-input">&times;</span>
+                            </div>
                             <button type="submit" id="search-link-button">Search</button>
-                        </h4>
+                        </div>
                     </div>
                     <div class="search-or-request">
-                        <h4>Request a link to be added in IS database:
+                        <div class="h4-simulation">Request a link to be added in IS database:
                             <br>
                             <br>
-                            <input type="text" name="request_link" id="request-link-input" placeholder="https://example.com/">
+                            <div class="input-container">
+                                <input type="text" name="request_link" class="clearable-input" id="request-link-input" placeholder="https://example.com/">
+                                <span class="clear-button" id="clear-request-link-input">&times;</span>
+                            </div>
                             <button type="submit" id="request-link-button">Request</button>
-                        </h4>
+                        </div>
                     </div>
                 </div>
 

@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const htmlSearchLinkButton = document.getElementById('search-link-button');
   const htmlRequestLinkInput = document.getElementById('request-link-input');
   const htmlRequestLinkButton = document.getElementById('request-link-button');
+  const htmlClearSearchLinkInput = document.getElementById('clear-search-link-input');
+  const htmlClearRequestLinkInput = document.getElementById('clear-request-link-input');
   const htmlOverlayContainer = document.getElementById('overlay-container');
   const htmlOverlayContent = document.getElementById('overlay-content');
   const htmlOverlayCloseButton = document.getElementById('overlay-close-button');
@@ -12,36 +14,76 @@ document.addEventListener("DOMContentLoaded", function() {
   let bookmarkDb;
   let previous_request;
 
-  htmlSearchLinkInput.addEventListener('keydown', function(event) {
+  // Search or Request Event Listeners, it's a *bit* messy here lol
+  htmlSearchLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
       initializeSearchOrRequest("Search");
     }
   });
-  htmlRequestLinkInput.addEventListener('keydown', function(event) {
+  htmlRequestLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
       initializeSearchOrRequest("Request");
     }
   });
-  htmlSearchLinkButton.addEventListener('click', function() {
+
+  htmlSearchLinkButton.addEventListener('click', () => {
     initializeSearchOrRequest("Search");
   });
-  htmlRequestLinkButton.addEventListener('click', function() {
+  htmlRequestLinkButton.addEventListener('click', () => {
     initializeSearchOrRequest("Request");
   });
-  htmlOverlayCloseButton.addEventListener('click', function() {
-    hideOverlay()
+
+  htmlOverlayCloseButton.addEventListener('click', () => {
+    hideOverlay();
   });
+
   // Close the overlay when clicking outside of the content area
-  htmlOverlayContainer.addEventListener("click", (event) => {
+  htmlOverlayContainer.addEventListener("click", event => {
     if (event.target === htmlOverlayContainer) {
-        hideOverlay();
+      hideOverlay();
     }
   });
+
   // Close the overlay when the "Escape" key is pressed
-  document.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
-        hideOverlay();
+      hideOverlay();
     }
+  });
+
+  // Clear input Event Listeners stuff
+  htmlSearchLinkInput.addEventListener("input", () => {
+    htmlClearSearchLinkInput.style.display = htmlSearchLinkInput.value === "" ? "none" : "block";
+  });
+  htmlRequestLinkInput.addEventListener("input", () => {
+    htmlClearRequestLinkInput.style.display = htmlRequestLinkInput.value === "" ? "none" : "block";
+  });
+
+  htmlSearchLinkInput.addEventListener("focusin", () => {
+    htmlClearSearchLinkInput.style.display = htmlSearchLinkInput.value === "" ? "none" : "block";
+  });
+  htmlRequestLinkInput.addEventListener("focusin", () => {
+    htmlClearRequestLinkInput.style.display = htmlRequestLinkInput.value === "" ? "none" : "block";
+  });
+
+  htmlSearchLinkInput.addEventListener("focusout", () => {
+    htmlClearSearchLinkInput.style.display = "none";
+  });
+  htmlRequestLinkInput.addEventListener("focusout", () => {
+    htmlClearRequestLinkInput.style.display = "none";
+  });
+
+  htmlClearSearchLinkInput.addEventListener('mousedown', () => {
+    htmlSearchLinkInput.value = "";
+    setTimeout(() => {
+      htmlSearchLinkInput.focus();
+    }, 0);
+  });
+  htmlClearRequestLinkInput.addEventListener('mousedown', () => {
+    htmlRequestLinkInput.value = "";
+    setTimeout(() => {
+      htmlRequestLinkInput.focus();
+    }, 0);
   });
 
 
@@ -260,12 +302,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 </h1>`;
 
       if (linksMatchResults.length === 0 && linksContainsResults.length === 0) {
+        // REMINDER: XSS injection is not possible inside an 'href' attribute.
         htmlOutput += `
                 <div class="indexed-or-not">
                     Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
                 </div>`;
       } else {
         if (linksMatchResults.length > 0) {
+          // REMINDER: XSS injection is not possible inside an 'href' attribute.
           htmlOutput += `
                 <div class="indexed-or-not">
                     Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
@@ -296,6 +340,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (linksContainsResults.length > 0) {
+          // REMINDER: XSS injection is not possible inside an 'href' attribute.
           htmlOutput += `
                 <div class="indexed-or-not">
                     Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
@@ -363,6 +408,7 @@ document.addEventListener("DOMContentLoaded", function() {
     previous_request = formatedUserRequestLowerCase;
 
   }
+
 });
 
 
