@@ -69,7 +69,7 @@ div.vertical-menu {
     background-color: #35393b;
     text-align: left;
 }
-div.vertical-menu a {
+div.vertical-menu > a {
     display: block;
     color: #ffffff;
     padding: 12px;
@@ -81,7 +81,7 @@ div.vertical-menu > hr {
 	border: 0;
 	border-top: 1px solid #494c4e;
 }
-div.vertical-menu a:hover {
+div.vertical-menu > a:hover {
     background-color: #535757;
 }
 div.vertical-menu > a > i, img {
@@ -148,57 +148,57 @@ div.javascript-disabled > img {
     z-index: 2; /* Ensure the button is on top of other elements */
 }
 
-#overlay-content h1 {
+#overlay-content > h1,
+body > h1 {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     color: #00CD00;
     text-shadow: 0px 0px 2px #7200FF, 0 0 1em #7200FF, 0 0 0.1em #7200FF;
 }
+#overlay-content > div.indexed-or-not,
+body > div.indexed-or-not {
+    text-align: center;
+    color: red;
+    font-size: 30px;
+}
 /* Styling for tables with columns that take the entire overlay width */
-#overlay-content table {
+#overlay-content > table {
     width: 100%; /* The table takes up the full width of the content area */
     table-layout: fixed; /* Set table layout to fixed */
     font-family: arial, sans-serif;
     border-collapse: collapse;
 }
 
-#overlay-content table th,
-#overlay-content table td {
+#overlay-content > table > tbody > tr > th,
+#overlay-content > table > tbody > tr > td {
     width: auto; /* Let each column take the entire available space evenly */
-    padding: 6px;
     border: 1px solid grey;
     max-width: 150px; /* Set a maximum width for the text content */
     white-space: normal; /* Allow text to wrap to new lines */
     overflow: hidden; /* Hide overflowing content */
 }
-#overlay-content th {
+#overlay-content > table > tbody > tr > th {
     color: #E3F0FF;
     text-align: center;
     padding: 10px;
     font-size: larger;
 }
-#overlay-content td {
+#overlay-content > table > tbody > tr > td {
     color: #E3F0FF;
     text-align: left;
     padding: 6px;
 }
-#overlay-content tr:nth-child(1) {
+#overlay-content > table > tbody > tr:nth-child(1) {
     background-color: #4B73AA;
 }
-#overlay-content tr:nth-child(even) {
+#overlay-content > table > tbody > tr:nth-child(even) {
     background-color: #000000cc;
-}
-
-#overlay-content > div.indexed-or-not {
-    text-align: center;
-    color: red;
-    font-size: 30px;
 }
 
 
 @media screen and (max-width: 1000px) {
-    div.search-or-request {
+    div.search-or-request-container > div.search-or-request {
         font-size: 14px;
     }
     div.pathbar {
