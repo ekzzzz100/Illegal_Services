@@ -11,17 +11,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const htmlOverlayContent = document.getElementById('overlay-content');
   const htmlOverlayCloseButton = document.getElementById('overlay-close-button');
 
+  let isOverlayActive = false;
   let bookmarkDb;
   let previous_request;
 
   // Search or Request Event Listeners, it's a *bit* messy here lol
   htmlSearchLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
+      htmlSearchLinkInput.blur();
       initializeSearchOrRequest("Search");
     }
   });
   htmlRequestLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
+      htmlRequestLinkInput.blur();
       initializeSearchOrRequest("Request");
     }
   });
@@ -86,13 +89,32 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 0);
   });
 
+  // Add an event listener that captures the Ctrl+A of only the overlay, when active.
+  document.addEventListener('keydown', event => {
+    if (isOverlayActive && event.ctrlKey && event.key === 'a') {
+      event.preventDefault(); // Prevent the default behavior of Ctrl+A
+
+      // Create a range and select the content within the htmlOverlayContent element
+      const range = document.createRange();
+      range.selectNode(htmlOverlayContent);
+
+      // Clear any existing selections
+      window.getSelection().removeAllRanges();
+
+      // Add the new range to the selection
+      window.getSelection().addRange(range);
+    }
+  });
+
 
   function showOverlay() {
+    isOverlayActive = true;
     htmlOverlayContainer.style.display = "flex";
     document.body.style.overflow = "hidden"; // Prevent scrolling on the background
   }
 
   function hideOverlay() {
+    isOverlayActive = false;
     htmlOverlayContainer.style.display = "none";
     document.body.style.overflow = "auto"; // Allow scrolling on the background
     htmlOverlayContent.innerHTML = `
@@ -116,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
   async function handleSearch(bookmarkDb) {
 
     await sanitizeString(htmlSearchLinkInput.value)
-    const formatedUserSearch = stripNewlinesAndWhitespace(htmlSearchLinkInput.value);
+    const formatedUserSearch = htmlSearchLinkInput.value.trim();
     const formatedUserSearchLowerCase = formatedUserSearch.toLowerCase();
 
     const foldersResults = [];
@@ -241,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
   async function handleRequest(bookmarkDb) {
 
     await sanitizeString(htmlRequestLinkInput.value)
-    const formatedUserRequest = stripNewlinesAndWhitespace(htmlRequestLinkInput.value);
+    const formatedUserRequest = htmlRequestLinkInput.value.trim();
     const formatedUserRequestLowerCase = formatedUserRequest.toLowerCase();
     const formatedUserRequestLink = encodeUrlEncoding(decodeUrlEncoding(formatUserInputToURL(formatedUserRequest)));
 
@@ -393,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // TODO: 'formatedUserRequestLink' would be nice to investigate that later (can't see the link requested on xss attack page)
     const body = {
-      "html": htmlOverlayContent.innerHTML // TODO: inject css in .innerHTML
+      "html": htmlOverlayContent.outerHTML // TODO: inject css in .outerHTML
     }
 
     const requestOptions = {
@@ -636,10 +658,6 @@ function decodeUrlEncoding(string) {
     string = string.split(chars).join(replacement);
   }
   return string;
-}
-
-function stripNewlinesAndWhitespace(str) {
-  return str.replace(/^\s+|\s+$/g, '');
 }
 
 function formatLink(link) {

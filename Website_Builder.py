@@ -273,7 +273,7 @@ bookmarks_db = subprocess.check_output([
     "--folders-path",
     "--quoting-style",
     "'",
-    R"D:\Git\Illegal_Services\IS.bookmarks.html"
+    R"D:\Git\Illegal_Services\GitHub\IS.bookmarks.html"
 ]).decode().splitlines(keepends=False)
 
 is_first_folder__flag = False
@@ -321,7 +321,7 @@ for bookmark in bookmarks_db:
             bookmark_link_title__html_text = bookmark_link_title__text
 
         with open(bookmark_path__windows_index_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
-            file.write(f'            <a href="{bookmark_link}" target="_blank" title="{bookmark_link}"><img src="https://external-content.duckduckgo.com/ip3/{bookmark_link_hostname}.ico" alt="favicon">{bookmark_link_title__html_text}</a>\n')
+            file.write(f'            <a href="{bookmark_link}" target="_blank" title="{bookmark_link}"><img src="https://external-content.duckduckgo.com/ip3/{bookmark_link_hostname}.ico" alt="🌐">{bookmark_link_title__html_text}</a>\n')
             file.close()
         if not (bookmark_path__windows_index_path__path.exists() and bookmark_path__windows_index_path__path.is_file()):
             print(f'ERROR (WRITE_LINK_INDEX): "{bookmark_link}" "{bookmark_folder__text}" "{bookmark_link_title__text}"')
