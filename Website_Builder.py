@@ -1,3 +1,7 @@
+# --------------------
+# 🐍 Standard Python Libraries (Included by Default) 🐍
+# These modules are part of the Python standard library and don't require additional installation.
+# --------------------
 import re
 import shutil
 import textwrap
@@ -6,6 +10,11 @@ import subprocess
 from pathlib import Path
 from urllib.parse import urlparse
 
+
+def error(message: str):
+    print(message, end="")
+    input()
+    exit(0)
 
 def encode_unicode_encoding(string: str, type: str):
     if type == "path":
@@ -122,7 +131,7 @@ def write_html_header() -> None:
         html_text = encode_html_entity_encoding(decode_url_encoding(decode_unicode_encoding(folder, "folder")))
         display_pathbar += f'<a href="/Illegal_Services/{_folder_path}/index.html">{html_text}</a> > '
     display_pathbar += "index.html"
-    with open(bookmark_path__windows_index_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
+    with bookmark_index_path__windows_path.open("a+", encoding="utf-8") as file:
         text = f"""
             <!DOCTYPE html>
             <html lang="en-US">
@@ -187,18 +196,11 @@ def write_html_header() -> None:
         """
         text = textwrap.dedent(text).removeprefix("\n")
         file.write(text)
-        file.close()
-    if not (bookmark_path__windows_index_path__path.exists() and bookmark_path__windows_index_path__path.is_file()):
-        print(f'ERROR (write_html_header): "{bookmark_path__windows_index_path__path}"')
-        input()
-        exit(0)
-    if not (bookmark_path__windows_path__path.exists() and bookmark_path__windows_path__path.is_dir()):
-        print(f'ERROR (write_html_header): "{bookmark_path__windows_path__path}"')
-        input()
-        exit(0)
+    if not bookmark_index_path__windows_path.is_file():
+        error(f'ERROR (write_html_header): "{bookmark_index_path__windows_path}"')
 
-def write_footer() -> None:
-    with open(windows_href_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
+def write_html_footer(path: Path):
+    with path.open("a+", encoding="utf-8") as file:
         text = """
                 </div>
 
@@ -239,50 +241,46 @@ def write_footer() -> None:
         """
         text = textwrap.dedent(text).removeprefix("\n")
         file.write(text)
-        file.close()
-    if not (windows_href_path__path.exists() and windows_href_path__path.is_file()):
-        print(f'ERROR (write_footer): "{bookmark_folder__href}" "{bookmark_folder__text}"')
-        input()
-        exit(0)
+    if not path.is_file():
+        error(f'ERROR (write_footer): "{bookmark_folder__href}" "{bookmark_folder__text}"')
 
 def create_folder_or_path(folder_or_path: Path):
-    if not (folder_or_path.exists() and folder_or_path.is_dir()):
+    if not folder_or_path.is_dir():
         folder_or_path.mkdir(parents=False, exist_ok=False)
-    if not (folder_or_path.exists() and folder_or_path.is_dir()):
-        print(f'ERROR (create_folder_or_path): "{folder_or_path}"')
-        input()
-        exit(0)
+    if not folder_or_path.is_dir():
+        error(f'ERROR (create_folder_or_path): "{folder_or_path}"')
     return folder_or_path
 
 
+BOOKMARKS_TOOLBAR_PATH = Path("Bookmarks Toolbar")
+JS_COUNTER_PATH = Path("js/counter.js")
 links_counter = 0
 
-for file_or_folder in [Path(R"Bookmarks Toolbar"), Path(R"js/counter.js")]:
-    if file_or_folder.exists():
-        if file_or_folder.is_dir():
-            shutil.rmtree(file_or_folder)
-        elif file_or_folder.is_file():
-            file_or_folder.unlink()
-    if file_or_folder.exists():
-        input()
-        exit(0)
+for path in [BOOKMARKS_TOOLBAR_PATH, JS_COUNTER_PATH]:
+    if path.exists():
+        if path.is_dir():
+            shutil.rmtree(path)
+        elif path.is_file():
+            path.unlink()
+    if path.exists():
+        error(f'ERROR (shutil.rmtree()): "{path}"')
 
 bookmarks_db = subprocess.check_output([
-    R"D:\Git\Illegal_Services\bookmarks_parser.exe",
+    Path("D:/Git/Illegal_Services/bookmarks_parser.exe"),
     "--extended-parsing",
     "--folders-path",
     "--quoting-style",
     "'",
-    R"D:\Git\Illegal_Services\GitHub\IS.bookmarks.html"
+    Path("D:/Git/Illegal_Services/GitHub/IS.bookmarks.html")
 ]).decode().splitlines(keepends=False)
 
 is_first_folder__flag = False
 for bookmark in bookmarks_db:
     parts = re.findall(r"'(.*?)'", bookmark)
 
-    bookmark_type = str(parts[0])
-    bookmark_depth = str(parts[1])
-    bookmark_path = str(parts[2])
+    bookmark_type: str = parts[0]
+    bookmark_depth: str = parts[1]
+    bookmark_path: str = parts[2]
 
     #print(bookmark)
     #print(parts)
@@ -293,23 +291,24 @@ for bookmark in bookmarks_db:
         and bookmark_path == ""
     ):
         is_first_folder__flag = True
-        bookmark_path = str(parts[3])
-    bookmark_path__windows_path__str = encode_unicode_encoding(decode_html_entity_encoding(bookmark_path), "path")
-    bookmark_path__windows_path__path = Path(bookmark_path__windows_path__str)
-    bookmark_path__windows_index_path__str = f"{bookmark_path__windows_path__str}/index.html"
-    bookmark_path__windows_index_path__path = Path(bookmark_path__windows_index_path__str)
-    bookmark_path__html_href_path = encode_url_encoding(decode_url_encoding(bookmark_path__windows_path__str))
-    bookmark_path__html_href_text = encode_html_entity_encoding(bookmark_path__windows_path__str)
-    if not (bookmark_path__windows_path__path.exists() and bookmark_path__windows_path__path.is_dir()):
-        create_folder_or_path(bookmark_path__windows_path__path)
+        bookmark_path: str = parts[3]
+
+    bookmark_path__unicode_encoded = encode_unicode_encoding(decode_html_entity_encoding(bookmark_path), "path")
+    bookmark_path__windows_path = Path(bookmark_path__unicode_encoded)
+    bookmark_index_path__windows_path = bookmark_path__windows_path / "index.html"
+
+    bookmark_path__html_href_path = encode_url_encoding(decode_url_encoding(bookmark_path__unicode_encoded))
+    bookmark_path__html_href_text = encode_html_entity_encoding(bookmark_path__unicode_encoded)
+    if not bookmark_path__windows_path.is_dir():
+        create_folder_or_path(bookmark_path__windows_path)
         write_html_header()
     if is_first_folder__flag is True:
         is_first_folder__flag = None
         continue
 
     if bookmark_type == "LINK":
-        bookmark_link = str(parts[3])
-        bookmark_link_title = str(parts[4])
+        bookmark_link: str = parts[3]
+        bookmark_link_title: str = parts[4]
         links_counter += 1
         bookmark_link_hostname = urlparse(bookmark_link).netloc
         bookmark_link_title__text = encode_html_entity_encoding(decode_html_entity_encoding(bookmark_link_title))
@@ -320,57 +319,38 @@ for bookmark in bookmarks_db:
         else:
             bookmark_link_title__html_text = bookmark_link_title__text
 
-        with open(bookmark_path__windows_index_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
+        with bookmark_index_path__windows_path.open("a+", encoding="utf-8") as file:
             file.write(f'            <a href="{bookmark_link}" target="_blank" title="{bookmark_link}"><img src="https://external-content.duckduckgo.com/ip3/{bookmark_link_hostname}.ico" alt="🌐">{bookmark_link_title__html_text}</a>\n')
-            file.close()
-        if not (bookmark_path__windows_index_path__path.exists() and bookmark_path__windows_index_path__path.is_file()):
-            print(f'ERROR (WRITE_LINK_INDEX): "{bookmark_link}" "{bookmark_folder__text}" "{bookmark_link_title__text}"')
-            input()
-            exit(0)
+        if not bookmark_index_path__windows_path.is_file():
+            error(f'ERROR (WRITE_LINK_INDEX): "{bookmark_link}" "{bookmark_folder__text}" "{bookmark_link_title__text}"')
 
     elif bookmark_type == "PATH":
-        bookmark_folder = str(parts[3])
+        bookmark_folder: str = parts[3]
         bookmark_folder__href = f"{encode_url_encoding(encode_unicode_encoding(decode_html_entity_encoding(bookmark_folder), 'folder'))}/index.html"
         bookmark_folder__text = encode_html_entity_encoding(decode_html_entity_encoding(bookmark_folder))
-        with open(bookmark_path__windows_index_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
+        with bookmark_index_path__windows_path.open("a+", encoding="utf-8") as file:
             file.write(f'            <a href="{bookmark_folder__href}"><i class="fa fa-folder-o"></i>{bookmark_folder__text}</a>\n')
-            file.close()
-        if not (bookmark_path__windows_index_path__path.exists() and bookmark_path__windows_index_path__path.is_file()):
-            print(f'ERROR (WRITE_PATH_INDEX): "{bookmark_folder__href}" "{bookmark_folder__text}"')
-            input()
-            exit(0)
+        if not bookmark_index_path__windows_path.is_file():
+            error(f'ERROR (WRITE_PATH_INDEX): "{bookmark_folder__href}" "{bookmark_folder__text}"')
 
     elif bookmark_type == "HR":
-        with open(bookmark_path__windows_index_path__str, "a+", encoding="utf-8", newline="\r\n") as file:
+        with bookmark_index_path__windows_path.open("a+", encoding="utf-8") as file:
             file.write("            <hr>\n")
-            file.close()
-        if not (bookmark_path__windows_index_path__path.exists() and bookmark_path__windows_index_path__path.is_file()):
-            print(f'ERROR (WRITE_HR_INDEX): "{bookmark_path__windows_index_path__str}"')
-            input()
-            exit(0)
+        if not bookmark_index_path__windows_path.is_file():
+            error(f'ERROR (WRITE_HR_INDEX): "{bookmark_index_path__windows_path}"')
     else:
-        print(True)
-        input()
-        exit(0)
+        error(f'ERROR (else:): "not LINK or PATH or HR"')
 
-folder_path = Path(R"Bookmarks Toolbar")
-for file_path in folder_path.glob("**/*.html"):
-    if not (file_path.exists() and file_path.is_file()):
+for path in BOOKMARKS_TOOLBAR_PATH.glob("**/*.html"):
+    if not path.is_file():
         continue
 
-    windows_href_path__path = file_path
-    windows_href_path__str = str(file_path)
-    if windows_href_path__str:
-        write_footer()
+    write_html_footer(path)
 
-js_conter__path = Path(R"js/counter.js")
-create_folder_or_path(js_conter__path.parent.resolve())
-with open(R"js/counter.js", "w", encoding="utf-8") as file:
+create_folder_or_path(JS_COUNTER_PATH.parent.resolve())
+with JS_COUNTER_PATH.open("w", encoding="utf-8") as file:
     file.write(f'document.write("Updated: {datetime.date.today().strftime("%d/%m/%Y")}&nbsp;&nbsp;|&nbsp;&nbsp;{links_counter} links indexed.")')
-    file.close()
-if not (js_conter__path.exists() and js_conter__path.is_file()):
-    print(f'ERROR (write_js_conter): "{bookmark_path__windows_index_path__path}"')
-    input()
-    exit(0)
+if not JS_COUNTER_PATH.is_file():
+    error(f'ERROR (write_js_conter): "{JS_COUNTER_PATH}"')
 
 exit(0)
