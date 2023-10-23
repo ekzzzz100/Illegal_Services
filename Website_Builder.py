@@ -177,6 +177,9 @@ def write_html_header() -> None:
                                 <span class="clear-button" id="clear-search-link-input">&times;</span>
                             </div>
                             <button type="submit" id="search-link-button">Search</button>
+                            <button type="button" id="search-link-history-button">
+                                <i class="fa fa-history" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="search-or-request">
@@ -188,6 +191,9 @@ def write_html_header() -> None:
                                 <span class="clear-button" id="clear-request-link-input">&times;</span>
                             </div>
                             <button type="submit" id="request-link-button">Request</button>
+                            <button type="button" id="request-link-history-button">
+                                <i class="fa fa-history" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -221,7 +227,7 @@ def write_html_footer(path: Path):
 
                 <div id="overlay-container">
                     <div id="overlay">
-                        <button id="overlay-close-button">Close</button>
+                        <button type="button" id="overlay-close-button">Close</button>
                         <div id="overlay-content">
                             <!-- JavaScript overlay content goes here -->
                         </div>

@@ -173,7 +173,7 @@ body > div.indexed-or-not {
 #overlay-content > table > tbody > tr > th,
 #overlay-content > table > tbody > tr > td {
     width: auto; /* Let each column take the entire available space evenly */
-    border: 1px solid grey;
+    border: 1px solid #808080;
     max-width: 150px; /* Set a maximum width for the text content */
     white-space: normal; /* Allow text to wrap to new lines */
     overflow: hidden; /* Hide overflowing content */
@@ -194,6 +194,28 @@ body > div.indexed-or-not {
 }
 #overlay-content > table > tbody > tr:nth-child(even) {
     background-color: #000000cc;
+}
+
+/* CSS for styling the search history section */
+.search-or-request-history {
+    background-color: #4B73AA;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+}
+.search-or-request-history h1 {
+    font-size: 24px;
+    color: #333;
+}
+.search-or-request-history ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+.search-or-request-history li {
+    margin: 10px 0;
+}
+.search-or-request-history span {
+    font-weight: bold;
 }
 
 

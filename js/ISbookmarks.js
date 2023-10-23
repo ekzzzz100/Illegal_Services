@@ -3,14 +3,18 @@ import '/Illegal_Services/plugins/DOMPurify-3.0.6/purify.min.js';
 document.addEventListener("DOMContentLoaded", function() {
   const htmlSearchLinkInput = document.getElementById('search-link-input');
   const htmlSearchLinkButton = document.getElementById('search-link-button');
+  const htmlSearchLinkHistoryButton = document.getElementById('search-link-history-button');
   const htmlRequestLinkInput = document.getElementById('request-link-input');
   const htmlRequestLinkButton = document.getElementById('request-link-button');
+  const htmlRequestLinkHistoryButton = document.getElementById('request-link-history-button');
   const htmlClearSearchLinkInput = document.getElementById('clear-search-link-input');
   const htmlClearRequestLinkInput = document.getElementById('clear-request-link-input');
   const htmlOverlayContainer = document.getElementById('overlay-container');
   const htmlOverlayContent = document.getElementById('overlay-content');
   const htmlOverlayCloseButton = document.getElementById('overlay-close-button');
 
+  let searchHistory = [];
+  let requestHistory = [];
   let isOverlayActive = false;
   let bookmarkDb;
   let previous_request;
@@ -34,6 +38,14 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   htmlRequestLinkButton.addEventListener('click', () => {
     initializeSearchOrRequestLink("Request");
+  });
+
+
+  htmlSearchLinkHistoryButton.addEventListener('click', () => {
+    initializeSearchOrRequestLinkHistory("Search");
+  });
+  htmlRequestLinkHistoryButton.addEventListener('click', () => {
+    initializeSearchOrRequestLinkHistory("Request");
   });
 
   htmlOverlayCloseButton.addEventListener('click', () => {
@@ -122,6 +134,90 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
   }
 
+  async function initializeSearchOrRequestLinkHistory(type) {
+
+    if (type === "Search") {
+      handleSearchLinkHistory();
+    } else if (type === "Request") {
+      handleRequestLinkHistory();
+    }
+  }
+
+  async function handleSearchLinkHistory() {
+    let htmlOutput = '';
+    htmlOutput += `
+                <div class="search-or-request-history">
+                    <h1>Search History</h2>`;
+    if (searchHistory.length == 0) {
+      htmlOutput += `
+                    <h4>⚠️ To use use this feature, you must first perform a search.</h4>`;
+    } else {
+      htmlOutput += `
+                    <ul>`;
+      for (let i = 0; i < searchHistory.length; i++) {
+        const itemId = i + 1;
+          htmlOutput += `
+                        <li><span id="formatted-user-search-${itemId}"></span></li>`;
+      }
+      htmlOutput += `
+                    </ul>`;
+    }
+    htmlOutput += `
+                </div>
+            </div>`;
+
+    showOverlay();
+    htmlOverlayContent.innerHTML = htmlOutput;
+
+    for (let i = 0; i < searchHistory.length; i++) {
+      const itemId = i + 1;
+      const elementId = `formatted-user-search-${itemId}`;
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        element.textContent = `[${searchHistory[i].time}] - "${searchHistory[i].search}"`;
+      }
+    }
+  }
+
+  async function handleRequestLinkHistory() {
+    let htmlOutput = '';
+    htmlOutput += `
+                <div class="search-or-request-history">
+                    <h1>Request History</h2>`;
+    if (requestHistory.length == 0) {
+      htmlOutput += `
+                    <h4>⚠️ To use use this feature, you must first perform a request.</h4>`;
+    } else {
+      htmlOutput += `
+                    <ul>`;
+      for (let i = 0; i < requestHistory.length; i++) {
+        const itemId = i + 1;
+          htmlOutput += `
+                        <li><span id="formatted-user-request-${itemId}"></span></li>`;
+      }
+      htmlOutput += `
+                    </ul>`;
+    }
+    htmlOutput += `
+                </div>
+            </div>`;
+
+    showOverlay();
+    htmlOverlayContent.innerHTML = htmlOutput;
+
+    for (let i = 0; i < requestHistory.length; i++) {
+      const itemId = i + 1;
+      const elementId = `formatted-user-request-${itemId}`;
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        element.textContent = `[${requestHistory[i].time} (${requestHistory[i].status})] - "${requestHistory[i].request}"`;
+      }
+    }
+  }
+
+
   async function initializeSearchOrRequestLink(type) {
 
     if (!bookmarkDb) {
@@ -138,8 +234,8 @@ document.addEventListener("DOMContentLoaded", function() {
   async function handleSearchLink(bookmarkDb) {
 
     await sanitizeString(htmlSearchLinkInput.value)
-    const formatedUserSearch = htmlSearchLinkInput.value.trim();
-    const formatedUserSearchLowerCase = formatedUserSearch.toLowerCase();
+    const formattedUserSearch = htmlSearchLinkInput.value.trim();
+    const formattedUserSearchLowerCase = formattedUserSearch.toLowerCase();
 
     const foldersResults = [];
     const linksResults = [];
@@ -170,14 +266,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
       await processDatabase(bookmarkDb, entry => {
         if (entry.type === 'FOLDER') {
-          if (entry.title.toLowerCase().includes(formatedUserSearchLowerCase)) {
+          if (entry.title.toLowerCase().includes(formattedUserSearchLowerCase)) {
             foldersResults.push({
               path: formatPathLink(entry.path.slice(0, -1)),
               title: encodeHtmlEntityEncoding(entry.title)
             });
           }
         } else if (entry.type === 'LINK') {
-          if (entry.title.toLowerCase().includes(formatedUserSearchLowerCase) || entry.url.toLowerCase().includes(formatedUserSearchLowerCase)) {
+          if (entry.title.toLowerCase().includes(formattedUserSearchLowerCase) || entry.url.toLowerCase().includes(formattedUserSearchLowerCase)) {
             linksResults.push({
               path: formatPathLink(entry.path),
               title: encodeHtmlEntityEncoding(entry.title),
@@ -190,12 +286,12 @@ document.addEventListener("DOMContentLoaded", function() {
       if (foldersResults.length === 0 && linksResults.length === 0) {
         htmlOutput += `
                 <hr>
-                <h1>Search: "<span id="formated-user-search"></span>" is not indexed in IS database.</h1>
+                <h1>Search: "<span id="formatted-user-search"></span>" is not indexed in IS database.</h1>
                 <hr>`;
       } else {
         htmlOutput = `
                 <hr>
-                <h1>Search: "<span id="formated-user-search"></span>" was found indexed in IS database, in location(s):</h1>
+                <h1>Search: "<span id="formatted-user-search"></span>" was found indexed in IS database, in location(s):</h1>
                 <hr>
                 <br>`;
       }
@@ -252,20 +348,30 @@ document.addEventListener("DOMContentLoaded", function() {
     htmlOverlayContent.innerHTML = htmlOutput;
 
     if (!isXssAttack) {
-      const element = document.getElementById('formated-user-search');
+      const element = document.getElementById('formatted-user-search');
       if (element) {
-        element.textContent = formatedUserSearch;
+        element.textContent = formattedUserSearch;
       }
+
+      const timestamp = getCurrentTime()
+      searchHistory.push({ time: timestamp, search: formattedUserSearch });
     }
 
   }
 
   async function handleRequestLink(bookmarkDb) {
 
+    function updateLastRequestStatus(status) {
+      if (requestHistory.length > 0) {
+          const lastEntry = requestHistory[requestHistory.length - 1];
+          lastEntry.status = status;
+      }
+    }
+
     await sanitizeString(htmlRequestLinkInput.value)
-    const formatedUserRequest = htmlRequestLinkInput.value.trim();
-    const formatedUserRequestLowerCase = formatedUserRequest.toLowerCase();
-    const formatedUserRequestLink = encodeUrlEncoding(decodeUrlEncoding(formatUserInputToURL(formatedUserRequest)));
+    const formattedUserRequest = htmlRequestLinkInput.value.trim();
+    const formattedUserRequestLowerCase = formattedUserRequest.toLowerCase();
+    const formattedUserRequestLink = encodeUrlEncoding(decodeUrlEncoding(formatUserInputToURL(formattedUserRequest)));
 
     const linksMatchResults = [];
     const linksContainsResults = [];
@@ -295,8 +401,8 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
       await processDatabase(bookmarkDb, entry => {
         if (entry.type === 'LINK') {
-          if (entry.url.toLowerCase().includes(formatedUserRequestLowerCase)) {
-            if (entry.url.toLowerCase() === formatedUserRequestLowerCase) {
+          if (entry.url.toLowerCase().includes(formattedUserRequestLowerCase)) {
+            if (entry.url.toLowerCase() === formattedUserRequestLowerCase) {
               linksMatchResults.push({
                 path: formatPathLink(entry.path),
                 title: encodeHtmlEntityEncoding(entry.title),
@@ -327,14 +433,14 @@ document.addEventListener("DOMContentLoaded", function() {
         // REMINDER: XSS injection is not possible inside an 'href' attribute.
         htmlOutput += `
                 <div class="indexed-or-not">
-                    Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-1"></span></a>" was not indexed in IS database.
+                    Link: "<a href="${formattedUserRequestLink}"><span id="formatted-user-request-1"></span></a>" was not indexed in IS database.
                 </div>`;
       } else {
         if (linksMatchResults.length > 0) {
           // REMINDER: XSS injection is not possible inside an 'href' attribute.
           htmlOutput += `
                 <div class="indexed-or-not">
-                    Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-2"></span></a>" was already indexed in IS database, in location(s):
+                    Link: "<a href="${formattedUserRequestLink}"><span id="formatted-user-request-2"></span></a>" was already indexed in IS database, in location(s):
                 </div>
                 <br>
                 <table>
@@ -365,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
           // REMINDER: XSS injection is not possible inside an 'href' attribute.
           htmlOutput += `
                 <div class="indexed-or-not">
-                    Link: "<a href="${formatedUserRequestLink}"><span id="formated-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
+                    Link: "<a href="${formattedUserRequestLink}"><span id="formatted-user-request-3"></span></a>" was also found indexed in IS database, in location(s):
                 </div>
                 <br>
                 <table>
@@ -395,25 +501,29 @@ document.addEventListener("DOMContentLoaded", function() {
     showOverlay()
     htmlOverlayContent.innerHTML = htmlOutput;
 
+    const timestamp = getCurrentTime()
+    requestHistory.push({ time: timestamp, status: "NOT_SENT", request: formattedUserRequest });
+
     if (!isXssAttack) {
-      const elementIds = ['formated-user-request-1', 'formated-user-request-2', 'formated-user-request-3'];
+      const elementIds = ['formatted-user-request-1', 'formatted-user-request-2', 'formatted-user-request-3'];
       elementIds.forEach((elementId) => {
         const element = document.getElementById(elementId);
         if (element) {
-          element.textContent = formatedUserRequest;
+          element.textContent = formattedUserRequest;
         }
       });
     }
 
 
-    if (previous_request === formatedUserRequestLowerCase) {
+    if (previous_request === formattedUserRequestLowerCase) {
+      updateLastRequestStatus("ALREADY_SENT_BEFORE")
       return;
     }
 
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
 
-    // TODO: 'formatedUserRequestLink' would be nice to investigate that later (can't see the link requested on xss attack page)
+    // TODO: 'formattedUserRequestLink' would be nice to investigate that later (can't see the link requested on xss attack page)
     const body = {
       "html": htmlOverlayContent.outerHTML // TODO: inject css in .outerHTML
     }
@@ -425,9 +535,11 @@ document.addEventListener("DOMContentLoaded", function() {
       body: JSON.stringify(body),
     }
 
-    makeWebRequest("https://eowgt2c6txqik7b.m.pipedream.net", requestOptions)
-
-    previous_request = formatedUserRequestLowerCase;
+    const response = await makeWebRequest("https://eowgt2c6txqik7b.m.pipedream.net", requestOptions);
+    if (response.ok) {
+      updateLastRequestStatus("SENT");
+      previous_request = formattedUserRequestLowerCase;
+    }
 
   }
 
@@ -551,6 +663,13 @@ function isResponseUp(response) {
   }
 
   return false;
+}
+
+
+function getCurrentTime() {
+  const currentTime = new Date();
+  const timestamp = `${currentTime.getHours().toString().padStart(2, '0')}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
+  return timestamp
 }
 
 function encodeUnicodeEncoding(string) {
