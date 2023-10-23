@@ -18,7 +18,7 @@ JS_COUNTER_PATH = Path("js/counter.js")
 def error(message: str):
     print(message, end="")
     input()
-    exit(0)
+    exit(1)
 
 def encode_unicode_encoding(string: str, type: str):
     if type == "path":
