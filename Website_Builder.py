@@ -11,6 +11,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
+BOOKMARKS_TOOLBAR_PATH = Path("Bookmarks Toolbar")
+JS_COUNTER_PATH = Path("js/counter.js")
+
+
 def error(message: str):
     print(message, end="")
     input()
@@ -252,8 +256,6 @@ def create_folder_or_path(folder_or_path: Path):
     return folder_or_path
 
 
-BOOKMARKS_TOOLBAR_PATH = Path("Bookmarks Toolbar")
-JS_COUNTER_PATH = Path("js/counter.js")
 links_counter = 0
 
 for path in [BOOKMARKS_TOOLBAR_PATH, JS_COUNTER_PATH]:
