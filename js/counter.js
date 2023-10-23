@@ -1,1 +1,1 @@
-document.write("Updated: 23/10/2023&nbsp;&nbsp;|&nbsp;&nbsp;8379 links indexed.")
+document.write("Updated: 23/10/2023&nbsp;&nbsp;|&nbsp;&nbsp;8380 links indexed.")
