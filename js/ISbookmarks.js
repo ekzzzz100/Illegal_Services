@@ -19,21 +19,21 @@ document.addEventListener("DOMContentLoaded", function() {
   htmlSearchLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
       htmlSearchLinkInput.blur();
-      initializeSearchOrRequest("Search");
+      initializeSearchOrRequestLink("Search");
     }
   });
   htmlRequestLinkInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
       htmlRequestLinkInput.blur();
-      initializeSearchOrRequest("Request");
+      initializeSearchOrRequestLink("Request");
     }
   });
 
   htmlSearchLinkButton.addEventListener('click', () => {
-    initializeSearchOrRequest("Search");
+    initializeSearchOrRequestLink("Search");
   });
   htmlRequestLinkButton.addEventListener('click', () => {
-    initializeSearchOrRequest("Request");
+    initializeSearchOrRequestLink("Request");
   });
 
   htmlOverlayCloseButton.addEventListener('click', () => {
@@ -122,20 +122,20 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
   }
 
-  async function initializeSearchOrRequest(type) {
+  async function initializeSearchOrRequestLink(type) {
 
     if (!bookmarkDb) {
       bookmarkDb = await fetchISdatabase();
     }
 
     if (type === "Search") {
-      handleSearch(bookmarkDb);
+      handleSearchLink(bookmarkDb);
     } else if (type === "Request") {
-      handleRequest(bookmarkDb);
+      handleRequestLink(bookmarkDb);
     }
   }
 
-  async function handleSearch(bookmarkDb) {
+  async function handleSearchLink(bookmarkDb) {
 
     await sanitizeString(htmlSearchLinkInput.value)
     const formatedUserSearch = htmlSearchLinkInput.value.trim();
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   }
 
-  async function handleRequest(bookmarkDb) {
+  async function handleRequestLink(bookmarkDb) {
 
     await sanitizeString(htmlRequestLinkInput.value)
     const formatedUserRequest = htmlRequestLinkInput.value.trim();
