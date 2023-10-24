@@ -134,7 +134,10 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
   }
 
-  async function initializeSearchOrRequestLinkHistory(type) {
+  /**
+   * @param {string} type
+   */
+  function initializeSearchOrRequestLinkHistory(type) {
 
     if (type === "Search") {
       handleSearchLinkHistory();
@@ -143,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  async function handleSearchLinkHistory() {
+  function handleSearchLinkHistory() {
     let htmlOutput = '';
     htmlOutput += `
                 <div class="search-or-request-history">
@@ -180,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  async function handleRequestLinkHistory() {
+  function handleRequestLinkHistory() {
     let htmlOutput = '';
     htmlOutput += `
                 <div class="search-or-request-history">
@@ -217,37 +220,38 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-
-  async function initializeSearchOrRequestLink(type) {
+  /**
+   * @param {string} type
+   */
+  function initializeSearchOrRequestLink(type) {
 
     if (!bookmarkDb) {
-      bookmarkDb = await fetchISdatabase();
+      bookmarkDb = fetchISdatabase();
     }
 
+    const timestamp = getCurrentTime()
+
     if (type === "Search") {
-      handleSearchLink(bookmarkDb);
+      handleSearchLink(bookmarkDb, timestamp);
     } else if (type === "Request") {
-      handleRequestLink(bookmarkDb);
+      handleRequestLink(bookmarkDb, timestamp);
     }
   }
 
-  async function handleSearchLink(bookmarkDb) {
+  /**
+   * @param {Promise<Array>} bookmarkDb
+   * @param {string} timestamp
+   */
+  async function handleSearchLink(bookmarkDb, timestamp) {
 
-    await sanitizeString(htmlSearchLinkInput.value)
-    const formattedUserSearch = htmlSearchLinkInput.value.trim();
+    const formattedUserSearch = sanitizeString(htmlSearchLinkInput.value.trim());
     const formattedUserSearchLowerCase = formattedUserSearch.toLowerCase();
+    const isXssAttack = Boolean(DOMPurify.removed.length);
 
     const foldersResults = [];
     const linksResults = [];
 
-    let isXssAttack;
     let htmlOutput = "";
-
-    if (DOMPurify.removed.length === 0) {
-      isXssAttack = false;
-    } else {
-      isXssAttack = true;
-    }
 
     if (isXssAttack) {
       console.log(DOMPurify.removed);
@@ -353,14 +357,21 @@ document.addEventListener("DOMContentLoaded", function() {
         element.textContent = formattedUserSearch;
       }
 
-      const timestamp = getCurrentTime()
       searchHistory.push({ time: timestamp, search: formattedUserSearch });
+      //createCookie("searchHistory", JSON.stringify(searchHistory), 0, "/Illegal_Services/Bookmarks%20Toolbar/", "Strict; Secure;");
     }
 
   }
 
-  async function handleRequestLink(bookmarkDb) {
+  /**
+   * @param {Promise<Array>} bookmarkDb
+   * @param {string} timestamp
+   */
+  async function handleRequestLink(bookmarkDb, timestamp) {
 
+    /**
+     * @param {string} status
+     */
     function updateLastRequestStatus(status) {
       if (requestHistory.length > 0) {
           const lastEntry = requestHistory[requestHistory.length - 1];
@@ -368,22 +379,15 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    await sanitizeString(htmlRequestLinkInput.value)
-    const formattedUserRequest = htmlRequestLinkInput.value.trim();
+    const formattedUserRequest =  sanitizeString(htmlRequestLinkInput.value.trim());
     const formattedUserRequestLowerCase = formattedUserRequest.toLowerCase();
     const formattedUserRequestLink = encodeUrlEncoding(decodeUrlEncoding(formatUserInputToURL(formattedUserRequest)));
+    const isXssAttack = Boolean(DOMPurify.removed.length);
 
     const linksMatchResults = [];
     const linksContainsResults = [];
 
-    let isXssAttack;
     let htmlOutput = "";
-
-    if (DOMPurify.removed.length === 0) {
-      isXssAttack = false;
-    } else {
-      isXssAttack = true;
-    }
 
     if (isXssAttack) {
       console.log(DOMPurify.removed);
@@ -501,8 +505,8 @@ document.addEventListener("DOMContentLoaded", function() {
     showOverlay()
     htmlOverlayContent.innerHTML = htmlOutput;
 
-    const timestamp = getCurrentTime()
     requestHistory.push({ time: timestamp, status: "NOT_SENT", request: formattedUserRequest });
+    //createCookie("requestHistory", JSON.stringify(requestHistory), 0, "/Illegal_Services/Bookmarks%20Toolbar/", "Strict; Secure;");
 
     if (!isXssAttack) {
       const elementIds = ['formatted-user-request-1', 'formatted-user-request-2', 'formatted-user-request-3'];
@@ -548,8 +552,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /**
  * Set the IS bookmarks database in an array.
- * @async
- * @returns {Promise<Array>}
+ * @throws {error}
  */
 async function fetchISdatabase() {
   const urlRawISDatabase = "/Illegal_Services/IS.bookmarks.json";
@@ -559,15 +562,13 @@ async function fetchISdatabase() {
     throw new Error("Failed to retrieve the IS database.");
   }
   const responseText = (await responseRawISDatabase.text()).trim();
-
-  let bookmarkDb;
-  bookmarkDb = JSON.parse(responseText);
+  const bookmarkDb = JSON.parse(responseText);
 
   if (
     (!Array.isArray(bookmarkDb))
     || (JSON.stringify(bookmarkDb[0]) !== '["FOLDER",0,"Bookmarks Toolbar"]') // Checks if the first array from the 'bookmarkDb' correctly matches the official IS bookmarks database
   ) {
-    throw new Error("Invalid bookmark database");
+    throw new Error("Invalid bookmark database.");
   }
 
   return bookmarkDb;
@@ -575,12 +576,12 @@ async function fetchISdatabase() {
 
 /**
  * Function that parses the bookmark database and log each entries in a callback.
- * @async
- * @param {Array} bookmarkDb - The database that contains all the bookmarks to be created.
+ * @param {Promise<Array>} bookmarkDb - The database that contains all the bookmarks to be created.
  * @param {Function} callback - The callback function to process each entry.
- * @returns {Promise<void>}
  */
 async function processDatabase(bookmarkDb, callback) {
+  bookmarkDb = await bookmarkDb
+
   const path = []
 
   for (const entry of bookmarkDb) {
@@ -626,19 +627,19 @@ async function processDatabase(bookmarkDb, callback) {
 
 }
 
-
-
-async function sanitizeString(str) {
-  return await DOMPurify.sanitize(str, { USE_PROFILES: { html: true } });
+/**
+ * @param {string} string
+ */
+function sanitizeString(string) {
+  const formattedString = string.replace(/[\u200E\u200F\u202A-\u202E]/gi, '');
+  DOMPurify.sanitize(formattedString, { USE_PROFILES: { html: true } });
+  return formattedString
 }
 
 /**
  * Function that performs a web request using the Fetch API.
- * @async
  * @param {string} url - The URL to which the request should be made.
  * @param {Object} options - Optional request configuration options.
- * @returns {Promise<Response | undefined>} A promise that resolves with the HTTP response from the web request.
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/fetch `fetch`} on MDN
  */
 async function makeWebRequest(url, options) {
   try {
@@ -648,10 +649,16 @@ async function makeWebRequest(url, options) {
   }
 }
 
+function getCurrentTime() {
+  const currentTime = new Date();
+  const timestamp = `${currentTime.getHours().toString().padStart(2, '0')}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
+  return timestamp
+}
+
 /**
  * Function that checks if an HTTP response indicates that a resource is UP.
  * @param {Response | undefined} response - The HTTP response to be checked. Can be undefined if the web request failed.
- * @returns {boolean} Returns `true` if the response indicates that the resource is UP; otherwise, returns `false`.
+ * @returns Returns `true` if the response indicates that the resource is UP; otherwise, returns `false`.
  */
 function isResponseUp(response) {
   if (response === undefined) {
@@ -665,13 +672,27 @@ function isResponseUp(response) {
   return false;
 }
 
+///**
+// * @param {string} name
+// * @param {string} value
+// * @param {number} daysToExpire
+// * @param {string} path
+// * @param {string} SameSite
+// */
+//function createCookie(name, value, daysToExpire, path, SameSite) {
+//  const expires = "";
+//  if (daysToExpire) {
+//    const date = new Date();
+//    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+//    expires = "; expires=" + date.toUTCString();
+//  }
+//
+//  document.cookie = name + "=" + value + expires + "; path=" + path + "; SameSite=" + SameSite;
+//}
 
-function getCurrentTime() {
-  const currentTime = new Date();
-  const timestamp = `${currentTime.getHours().toString().padStart(2, '0')}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
-  return timestamp
-}
-
+/**
+ * @param {string} string
+ */
 function encodeUnicodeEncoding(string) {
   const replacements = {
     '\\': 'U+005C',
@@ -691,6 +712,9 @@ function encodeUnicodeEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} string
+ */
 function decodeUnicodeEncoding(string) {
   const replacements = {
     'U+005C': '\\',
@@ -710,6 +734,9 @@ function decodeUnicodeEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} string
+ */
 function encodeHtmlEntityEncoding(string) {
   const replacements = {
     '&': '&amp;',
@@ -726,6 +753,9 @@ function encodeHtmlEntityEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} string
+ */
 function decodeHtmlEntityEncoding(string) {
   const replacements = {
     '&amp;': '&',
@@ -741,6 +771,9 @@ function decodeHtmlEntityEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} string
+ */
 function encodeUrlEncoding(string) {
   const replacements = {
     '%': '%25',
@@ -760,6 +793,9 @@ function encodeUrlEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} string
+ */
 function decodeUrlEncoding(string) {
   const replacements = {
     '%25': '%',
@@ -779,20 +815,29 @@ function decodeUrlEncoding(string) {
   return string;
 }
 
+/**
+ * @param {string} link
+ */
 function formatLink(link) {
   const href_link = encodeUrlEncoding(decodeUrlEncoding(link));
   const text_link = encodeHtmlEntityEncoding(decodeHtmlEntityEncoding(link));
   return `<a href="${href_link}">${text_link}</a>`;
 }
 
+/**
+ * @param {Array} pathArray
+ */
 function formatPathLink(pathArray) {
   const href_link = encodeUrlEncoding(decodeUrlEncoding(pathArray.map(item => encodeUnicodeEncoding(item)).join('/')));
   const text_link = encodeHtmlEntityEncoding(decodeHtmlEntityEncoding(pathArray.join('/')));
   return `<a href="/Illegal_Services/${href_link}/index.html">${text_link}</a>`;
 }
 
+/**
+ * @param {string} userInput
+ */
 function formatUserInputToURL(userInput) {
-  if (userInput.startsWith("http://") || userInput.startsWith("https://")) {
+  if (/^https?:\/\//.test(userInput)) {
     return userInput;
   } else {
     return `http://${userInput}`;
