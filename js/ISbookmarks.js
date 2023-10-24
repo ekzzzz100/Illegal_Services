@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <h1>Search History</h2>`;
     if (searchHistory.length == 0) {
       htmlOutput += `
-                    <h4>⚠️ To use use this feature, you must first perform a search.</h4>`;
+                    <h4>⚠️ You haven't searched for anything yet.</h4>`;
     } else {
       htmlOutput += `
                     <ul>`;
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <h1>Request History</h2>`;
     if (requestHistory.length == 0) {
       htmlOutput += `
-                    <h4>⚠️ To use use this feature, you must first perform a request.</h4>`;
+                    <h4>⚠️ You haven't sent any request yet.</h4>`;
     } else {
       htmlOutput += `
                     <ul>`;
