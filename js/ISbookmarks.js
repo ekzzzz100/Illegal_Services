@@ -13,11 +13,25 @@ document.addEventListener("DOMContentLoaded", function() {
   const htmlOverlayContent = document.getElementById('overlay-content');
   const htmlOverlayCloseButton = document.getElementById('overlay-close-button');
 
-  let searchHistory = [];
-  let requestHistory = [];
-  let isOverlayActive = false;
   let bookmarkDb;
   let previous_request;
+  let isOverlayActive = false;
+
+  let searchHistory = [];
+  const searchHistoryCookie = getCookie("searchHistory");
+  if (searchHistoryCookie === null) {
+    searchHistory = []
+  } else {
+    searchHistory = JSON.parse(searchHistoryCookie)
+  }
+
+  let requestHistory = [];
+  const RequestHistoryCookie = getCookie("requestHistory");
+  if (RequestHistoryCookie === null) {
+    requestHistory = []
+  } else {
+    requestHistory = JSON.parse(RequestHistoryCookie)
+  }
 
   // Search or Request Event Listeners, it's a *bit* messy here lol
   htmlSearchLinkInput.addEventListener('keydown', event => {
@@ -137,6 +151,29 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * @param {string} type
    */
+  async function initializeSearchOrRequestLink(type) {
+
+    if (!bookmarkDb) {
+      bookmarkDb = fetchISdatabase();
+    }
+
+    const timestamp = getCurrentTime()
+
+    if (type === "Search") {
+      const formattedUserSearch = await handleSearchLink(bookmarkDb, timestamp);
+      searchHistory.push({ time: timestamp, search: formattedUserSearch });
+      document.cookie = `searchHistory=${JSON.stringify(searchHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
+    } else if (type === "Request") {
+      const [ formattedUserRequest, status ] = await handleRequestLink(bookmarkDb, timestamp);
+      requestHistory.push({ time: timestamp, status: status, request: formattedUserRequest });
+      document.cookie = `requestHistory=${JSON.stringify(requestHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
+    }
+
+  }
+
+  /**
+   * @param {string} type
+   */
   function initializeSearchOrRequestLinkHistory(type) {
 
     if (type === "Search") {
@@ -221,28 +258,9 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   /**
-   * @param {string} type
-   */
-  function initializeSearchOrRequestLink(type) {
-
-    if (!bookmarkDb) {
-      bookmarkDb = fetchISdatabase();
-    }
-
-    const timestamp = getCurrentTime()
-
-    if (type === "Search") {
-      handleSearchLink(bookmarkDb, timestamp);
-    } else if (type === "Request") {
-      handleRequestLink(bookmarkDb, timestamp);
-    }
-  }
-
-  /**
    * @param {Promise<Array>} bookmarkDb
-   * @param {string} timestamp
    */
-  async function handleSearchLink(bookmarkDb, timestamp) {
+  async function handleSearchLink(bookmarkDb) {
 
     const formattedUserSearch = sanitizeString(htmlSearchLinkInput.value.trim());
     const formattedUserSearchLowerCase = formattedUserSearch.toLowerCase();
@@ -254,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let htmlOutput = "";
 
     if (isXssAttack) {
-      console.log(DOMPurify.removed);
+      //console.log(DOMPurify.removed);
       htmlOutput += `
                 <hr>
                 <h1>
@@ -356,28 +374,16 @@ document.addEventListener("DOMContentLoaded", function() {
       if (element) {
         element.textContent = formattedUserSearch;
       }
-
-      searchHistory.push({ time: timestamp, search: formattedUserSearch });
-      //createCookie("searchHistory", JSON.stringify(searchHistory), 0, "/Illegal_Services/Bookmarks%20Toolbar/", "Strict; Secure;");
     }
+
+    return formattedUserSearch;
 
   }
 
   /**
    * @param {Promise<Array>} bookmarkDb
-   * @param {string} timestamp
    */
-  async function handleRequestLink(bookmarkDb, timestamp) {
-
-    /**
-     * @param {string} status
-     */
-    function updateLastRequestStatus(status) {
-      if (requestHistory.length > 0) {
-          const lastEntry = requestHistory[requestHistory.length - 1];
-          lastEntry.status = status;
-      }
-    }
+  async function handleRequestLink(bookmarkDb) {
 
     const formattedUserRequest =  sanitizeString(htmlRequestLinkInput.value.trim());
     const formattedUserRequestLowerCase = formattedUserRequest.toLowerCase();
@@ -390,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let htmlOutput = "";
 
     if (isXssAttack) {
-      console.log(DOMPurify.removed);
+      //console.log(DOMPurify.removed);
       htmlOutput += `
                 <hr>
                 <h1>
@@ -505,9 +511,6 @@ document.addEventListener("DOMContentLoaded", function() {
     showOverlay()
     htmlOverlayContent.innerHTML = htmlOutput;
 
-    requestHistory.push({ time: timestamp, status: "NOT_SENT", request: formattedUserRequest });
-    //createCookie("requestHistory", JSON.stringify(requestHistory), 0, "/Illegal_Services/Bookmarks%20Toolbar/", "Strict; Secure;");
-
     if (!isXssAttack) {
       const elementIds = ['formatted-user-request-1', 'formatted-user-request-2', 'formatted-user-request-3'];
       elementIds.forEach((elementId) => {
@@ -520,8 +523,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     if (previous_request === formattedUserRequestLowerCase) {
-      updateLastRequestStatus("ALREADY_SENT_BEFORE")
-      return;
+      return [ formattedUserRequest, "ALREADY_SENT_BEFORE" ];
     }
 
     const headers = new Headers()
@@ -541,8 +543,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const response = await makeWebRequest("https://eowgt2c6txqik7b.m.pipedream.net", requestOptions);
     if (response.ok) {
-      updateLastRequestStatus("SENT");
       previous_request = formattedUserRequestLowerCase;
+      return [ formattedUserRequest, "SENT" ];
+    } else {
+      return [ formattedUserRequest, "NETWORK_ERROR" ];
     }
 
   }
@@ -628,6 +632,44 @@ async function processDatabase(bookmarkDb, callback) {
 }
 
 /**
+ * @param {string} desiredCookieName
+ */
+function getCookie(desiredCookieName) {
+  const cookiesString = document.cookie;
+  if (cookiesString === "") {
+    return null;
+  }
+
+  const cookiesObject = parseCookies(cookiesString);
+
+  // Check if the desired cookie name exists in the cookiesObject
+  if (cookiesObject.hasOwnProperty(desiredCookieName)) {
+    const cookieValue = cookiesObject[desiredCookieName];
+    return cookieValue;
+  } else {
+    return null; // Cookie not found
+  }
+}
+
+/**
+ * @param {string} cookiesString
+ */
+function parseCookies(cookiesString) {
+  const cookies = {};
+  const cookiesArray = cookiesString.split(';');
+
+  for (const cookie of cookiesArray) {
+    const match = cookie.trim().match(/([^=]+)=(.*)/);
+    const name = match[1];
+    const value = match[2];
+
+    cookies[name] = value;
+  }
+
+  return cookies;
+}
+
+/**
  * @param {string} string
  */
 function sanitizeString(string) {
@@ -671,24 +713,6 @@ function isResponseUp(response) {
 
   return false;
 }
-
-///**
-// * @param {string} name
-// * @param {string} value
-// * @param {number} daysToExpire
-// * @param {string} path
-// * @param {string} SameSite
-// */
-//function createCookie(name, value, daysToExpire, path, SameSite) {
-//  const expires = "";
-//  if (daysToExpire) {
-//    const date = new Date();
-//    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
-//    expires = "; expires=" + date.toUTCString();
-//  }
-//
-//  document.cookie = name + "=" + value + expires + "; path=" + path + "; SameSite=" + SameSite;
-//}
 
 /**
  * @param {string} string
