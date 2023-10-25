@@ -20,17 +20,17 @@ document.addEventListener("DOMContentLoaded", function() {
   let searchHistory = [];
   const searchHistoryCookie = getCookie("searchHistory");
   if (searchHistoryCookie === null) {
-    searchHistory = []
+    searchHistory = [];
   } else {
-    searchHistory = JSON.parse(searchHistoryCookie)
+    searchHistory = JSON.parse(searchHistoryCookie);
   }
 
   let requestHistory = [];
   const RequestHistoryCookie = getCookie("requestHistory");
   if (RequestHistoryCookie === null) {
-    requestHistory = []
+    requestHistory = [];
   } else {
-    requestHistory = JSON.parse(RequestHistoryCookie)
+    requestHistory = JSON.parse(RequestHistoryCookie);
   }
 
   // Search or Request Event Listeners, it's a *bit* messy here lol
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
       bookmarkDb = fetchISdatabase();
     }
 
-    const timestamp = getCurrentTime()
+    const timestamp = getCurrentTime();
 
     if (type === "Search") {
       const formattedUserSearch = await handleSearchLink(bookmarkDb, timestamp);
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    showOverlay()
+    showOverlay();
     htmlOverlayContent.innerHTML = htmlOutput;
 
     if (!isXssAttack) {
@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
 
-    showOverlay()
+    showOverlay();
     htmlOverlayContent.innerHTML = htmlOutput;
 
     if (!isXssAttack) {
@@ -526,8 +526,8 @@ document.addEventListener("DOMContentLoaded", function() {
       return [ formattedUserRequest, "ALREADY_SENT_BEFORE" ];
     }
 
-    const headers = new Headers()
-    headers.append("Content-Type", "application/json")
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
     // TODO: 'formattedUserRequestLink' would be nice to investigate that later (can't see the link requested on xss attack page)
     const body = {
@@ -584,9 +584,9 @@ async function fetchISdatabase() {
  * @param {Function} callback - The callback function to process each entry.
  */
 async function processDatabase(bookmarkDb, callback) {
-  bookmarkDb = await bookmarkDb
+  bookmarkDb = await bookmarkDb;
 
-  const path = []
+  const path = [];
 
   for (const entry of bookmarkDb) {
     const [type, depth] = entry;
@@ -675,7 +675,7 @@ function parseCookies(cookiesString) {
 function sanitizeString(string) {
   const formattedString = string.replace(/[\u200E\u200F\u202A-\u202E]/gi, '');
   DOMPurify.sanitize(formattedString, { USE_PROFILES: { html: true } });
-  return formattedString
+  return formattedString;
 }
 
 /**
@@ -694,7 +694,7 @@ async function makeWebRequest(url, options) {
 function getCurrentTime() {
   const currentTime = new Date();
   const timestamp = `${currentTime.getHours().toString().padStart(2, '0')}:${currentTime.getMinutes().toString().padStart(2, '0')}:${currentTime.getSeconds().toString().padStart(2, '0')}`;
-  return timestamp
+  return timestamp;
 }
 
 /**
