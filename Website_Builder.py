@@ -214,7 +214,7 @@ def write_html_footer(path: Path):
         text = """
                 </div>
 
-                <div class="counter">
+                <div id="counterText">
                     <script src="/Illegal_Services/js/counter.js"></script>
                     <noscript>
                         <div class="javascript-disabled">
@@ -357,7 +357,17 @@ for path in BOOKMARKS_TOOLBAR_PATH.glob("**/*.html"):
 
 create_folder_or_path(JS_COUNTER_PATH.parent.resolve())
 with JS_COUNTER_PATH.open("w", encoding="utf-8") as file:
-    file.write(f'document.write("Updated: {datetime.date.today().strftime("%d/%m/%Y")}&nbsp;&nbsp;|&nbsp;&nbsp;{links_counter} links indexed.")')
+    text = f"""
+        document.addEventListener("DOMContentLoaded", function() {{
+          const counterTextElement = document.getElementById("counterText");
+
+          if (counterTextElement) {{
+            counterTextElement.innerHTML = "Updated: {datetime.date.today().strftime("%d/%m/%Y")}&nbsp;&nbsp;|&nbsp;&nbsp;{links_counter} links indexed.";
+          }}
+        }});
+    """
+    text = textwrap.dedent(text).removeprefix("\n")
+    file.write(text)
 if not JS_COUNTER_PATH.is_file():
     error(f'ERROR (write_js_conter): "{JS_COUNTER_PATH}"')
 
