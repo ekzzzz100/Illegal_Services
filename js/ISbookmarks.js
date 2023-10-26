@@ -1,6 +1,6 @@
 import "/Illegal_Services/plugins/DOMPurify-3.0.6/purify.min.js";
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const htmlSearchLinkInput = document.getElementById("search-link-input");
   const htmlSearchLinkButton = document.getElementById("search-link-button");
   const htmlSearchLinkHistoryButton = document.getElementById("search-link-history-button");
@@ -34,26 +34,24 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // Search or Request Event Listeners, it's a *bit* messy here lol
-  htmlSearchLinkInput.addEventListener("keydown", event => {
+  htmlSearchLinkInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       htmlSearchLinkInput.blur();
       initializeSearchOrRequestLink("Search");
     }
   });
-  htmlRequestLinkInput.addEventListener("keydown", event => {
+  htmlRequestLinkInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       htmlRequestLinkInput.blur();
       initializeSearchOrRequestLink("Request");
     }
   });
-
   htmlSearchLinkButton.addEventListener("click", () => {
     initializeSearchOrRequestLink("Search");
   });
   htmlRequestLinkButton.addEventListener("click", () => {
     initializeSearchOrRequestLink("Request");
   });
-
 
   htmlSearchLinkHistoryButton.addEventListener("click", () => {
     initializeSearchOrRequestLinkHistory("Search");
@@ -65,16 +63,13 @@ document.addEventListener("DOMContentLoaded", function() {
   htmlOverlayCloseButton.addEventListener("click", () => {
     hideOverlay();
   });
-
   // Close the overlay when clicking outside of the content area
-  htmlOverlayContainer.addEventListener("click", event => {
+  htmlOverlayContainer.addEventListener("click", (event) => {
     if (event.target === htmlOverlayContainer) {
       hideOverlay();
     }
   });
-
-  // Close the overlay when the "Escape" key is pressed
-  document.addEventListener("keydown", event => {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       hideOverlay();
     }
@@ -116,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Add an event listener that captures the Ctrl+A of only the overlay, when active.
-  document.addEventListener("keydown", event => {
+  document.addEventListener("keydown", (event) => {
     if (isOverlayActive && event.ctrlKey && event.key === "a") {
       event.preventDefault(); // Prevent the default behavior of Ctrl+A
 
@@ -131,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function() {
       window.getSelection().addRange(range);
     }
   });
-
 
   function showOverlay() {
     isOverlayActive = true;
@@ -152,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function() {
    * @param {string} type
    */
   async function initializeSearchOrRequestLink(type) {
-
     if (!bookmarkDb) {
       bookmarkDb = fetchISdatabase();
     }
@@ -164,18 +157,16 @@ document.addEventListener("DOMContentLoaded", function() {
       searchHistory.push({ time: timestamp, search: formattedUserSearch });
       document.cookie = `searchHistory=${JSON.stringify(searchHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
     } else if (type === "Request") {
-      const [ formattedUserRequest, status ] = await handleRequestLink(bookmarkDb, timestamp);
+      const [formattedUserRequest, status] = await handleRequestLink(bookmarkDb, timestamp);
       requestHistory.push({ time: timestamp, status: status, request: formattedUserRequest });
       document.cookie = `requestHistory=${JSON.stringify(requestHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
     }
-
   }
 
   /**
    * @param {string} type
    */
   function initializeSearchOrRequestLinkHistory(type) {
-
     if (type === "Search") {
       handleSearchLinkHistory();
     } else if (type === "Request") {
@@ -261,7 +252,6 @@ document.addEventListener("DOMContentLoaded", function() {
    * @param {Promise<Array>} bookmarkDb
    */
   async function handleSearchLink(bookmarkDb) {
-
     const formattedUserSearch = sanitizeString(htmlSearchLinkInput.value.trim());
     const formattedUserSearchLowerCase = formattedUserSearch.toLowerCase();
     const isXssAttack = Boolean(DOMPurify.removed.length);
@@ -283,15 +273,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     😄😘😘
                 </h1>
                 <hr>`;
-
     } else {
-
-      await processDatabase(bookmarkDb, entry => {
+      await processDatabase(bookmarkDb, (entry) => {
         if (entry.type === "FOLDER") {
           if (entry.title.toLowerCase().includes(formattedUserSearchLowerCase)) {
             foldersResults.push({
               path: formatPathLink(entry.path.slice(0, -1)),
-              title: encodeHtmlEntityEncoding(entry.title)
+              title: encodeHtmlEntityEncoding(entry.title),
             });
           }
         } else if (entry.type === "LINK") {
@@ -299,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function() {
             linksResults.push({
               path: formatPathLink(entry.path),
               title: encodeHtmlEntityEncoding(entry.title),
-              url: formatLink(entry.url)
+              url: formatLink(entry.url),
             });
           }
         }
@@ -377,15 +365,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     return formattedUserSearch;
-
   }
 
   /**
    * @param {Promise<Array>} bookmarkDb
    */
   async function handleRequestLink(bookmarkDb) {
-
-    const formattedUserRequest =  sanitizeString(htmlRequestLinkInput.value.trim());
+    const formattedUserRequest = sanitizeString(htmlRequestLinkInput.value.trim());
     const formattedUserRequestLowerCase = formattedUserRequest.toLowerCase();
     const formattedUserRequestLink = encodeUrlEncoding(decodeUrlEncoding(formatUserInputToURL(formattedUserRequest)));
     const isXssAttack = Boolean(DOMPurify.removed.length);
@@ -407,22 +393,21 @@ document.addEventListener("DOMContentLoaded", function() {
                     😄😘😘
                 </h1>
                 <hr>`;
-
     } else {
-      await processDatabase(bookmarkDb, entry => {
+      await processDatabase(bookmarkDb, (entry) => {
         if (entry.type === "LINK") {
           if (entry.url.toLowerCase().includes(formattedUserRequestLowerCase)) {
             if (entry.url.toLowerCase() === formattedUserRequestLowerCase) {
               linksMatchResults.push({
                 path: formatPathLink(entry.path),
                 title: encodeHtmlEntityEncoding(entry.title),
-                url: formatLink(entry.url)
+                url: formatLink(entry.url),
               });
             } else {
               linksContainsResults.push({
                 path: formatPathLink(entry.path),
                 title: encodeHtmlEntityEncoding(entry.title),
-                url: formatLink(entry.url)
+                url: formatLink(entry.url),
               });
             }
           }
@@ -504,7 +489,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 </table>
             `;
         }
-
       }
     }
 
@@ -521,9 +505,8 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
-
     if (previous_request === formattedUserRequestLowerCase) {
-      return [ formattedUserRequest, "ALREADY_SENT_BEFORE" ];
+      return [formattedUserRequest, "ALREADY_SENT_BEFORE"];
     }
 
     const headers = new Headers();
@@ -531,7 +514,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // TODO: 'formattedUserRequestLink' would be nice to investigate that later (can't see the link requested on xss attack page)
     const body = {
-      "html": htmlOverlayContent.outerHTML // TODO: inject css in .outerHTML
+      html: htmlOverlayContent.outerHTML, // TODO: inject css in .outerHTML
     };
 
     const requestOptions = {
@@ -544,15 +527,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const response = await makeWebRequest("https://eowgt2c6txqik7b.m.pipedream.net", requestOptions);
     if (response.ok) {
       previous_request = formattedUserRequestLowerCase;
-      return [ formattedUserRequest, "SENT" ];
+      return [formattedUserRequest, "SENT"];
     } else {
-      return [ formattedUserRequest, "NETWORK_ERROR" ];
+      return [formattedUserRequest, "NETWORK_ERROR"];
     }
-
   }
-
 });
-
 
 /**
  * Set the IS bookmarks database in an array.
@@ -569,8 +549,9 @@ async function fetchISdatabase() {
   const bookmarkDb = JSON.parse(responseText);
 
   if (
-    (!Array.isArray(bookmarkDb))
-    || (JSON.stringify(bookmarkDb[0]) !== '["FOLDER",0,"Bookmarks Toolbar"]') // Checks if the first array from the 'bookmarkDb' correctly matches the official IS bookmarks database
+    // prettier-ignore
+    !Array.isArray(bookmarkDb)
+    || JSON.stringify(bookmarkDb[0]) !== '["FOLDER",0,"Bookmarks Toolbar"]'
   ) {
     throw new Error("Invalid bookmark database.");
   }
@@ -592,7 +573,7 @@ async function processDatabase(bookmarkDb, callback) {
     const [type, depth] = entry;
 
     if (path.length !== 0) {
-      const depthToRemove = (path.length - depth);
+      const depthToRemove = path.length - depth;
 
       if (depthToRemove > 0) {
         path.splice(-depthToRemove);
@@ -606,7 +587,7 @@ async function processDatabase(bookmarkDb, callback) {
         type: type,
         path: path,
         title: title,
-        url: null
+        url: null,
       });
     } else if (type === "LINK") {
       const title = decodeHtmlEntityEncoding(entry[3]);
@@ -615,20 +596,17 @@ async function processDatabase(bookmarkDb, callback) {
         type: type,
         path: path,
         title: title,
-        url: url
-
+        url: url,
       });
     } else if (type === "HR") {
       await callback({
         type: type,
         path: path,
         title: null,
-        url: null
+        url: null,
       });
     }
-
   }
-
 }
 
 /**
@@ -724,7 +702,7 @@ function encodeUnicodeEncoding(string) {
     ":": "U+003A",
     "*": "U+002A",
     "?": "U+003F",
-    "\"": "U+0022",
+    '"': "U+0022",
     "<": "U+003C",
     ">": "U+003E",
     "|": "U+007C",
@@ -747,7 +725,7 @@ function decodeUnicodeEncoding(string) {
     "U+003A": ":",
     "U+002A": "*",
     "U+003F": "?",
-    "U+0022": "\"",
+    "U+0022": '"',
     "U+003C": "<",
     "U+003E": ">",
     "U+007C": "|",
@@ -766,7 +744,7 @@ function decodeUnicodeEncoding(string) {
 function encodeHtmlEntityEncoding(string) {
   const replacements = {
     "&": "&amp;",
-    "\"": "&quot;",
+    '"': "&quot;",
     "'": "&#39;",
     "<": "&lt;",
     ">": "&gt;",
@@ -785,7 +763,7 @@ function encodeHtmlEntityEncoding(string) {
 function decodeHtmlEntityEncoding(string) {
   const replacements = {
     "&amp;": "&",
-    "&quot;": "\"",
+    "&quot;": '"',
     "&#39;": "'",
     "&lt;": "<",
     "&gt;": ">",
@@ -854,7 +832,7 @@ function formatLink(link) {
  * @param {Array} pathArray
  */
 function formatPathLink(pathArray) {
-  const href_link = encodeUrlEncoding(decodeUrlEncoding(pathArray.map(item => encodeUnicodeEncoding(item)).join("/")));
+  const href_link = encodeUrlEncoding(decodeUrlEncoding(pathArray.map((item) => encodeUnicodeEncoding(item)).join("/")));
   const text_link = encodeHtmlEntityEncoding(decodeHtmlEntityEncoding(pathArray.join("/")));
   return `<a href="/Illegal_Services/${href_link}/index.html">${text_link}</a>`;
 }
