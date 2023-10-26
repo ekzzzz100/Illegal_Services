@@ -154,11 +154,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (type === "Search") {
       const formattedUserSearch = await handleSearchLink(bookmarkDb, timestamp);
-      searchHistory.push({ time: timestamp, search: formattedUserSearch });
+      searchHistory.push({ time: timestamp, search: formattedUserSearch.replace(";", "U+003B") });
       document.cookie = `searchHistory=${JSON.stringify(searchHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
     } else if (type === "Request") {
       const [formattedUserRequest, status] = await handleRequestLink(bookmarkDb, timestamp);
-      requestHistory.push({ time: timestamp, status: status, request: formattedUserRequest });
+      requestHistory.push({ time: timestamp, status: status, request: formattedUserRequest.replace(";", "U+003B") });
       document.cookie = `requestHistory=${JSON.stringify(requestHistory)}; path=/Illegal_Services/Bookmarks%20Toolbar/; samesite=Strict; Secure`;
     }
   }
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const element = document.getElementById(elementId);
 
       if (element) {
-        element.textContent = `[${searchHistory[i].time}] - "${searchHistory[i].search}"`;
+        element.textContent = `[${searchHistory[i].time}] - "${searchHistory[i].search.replace("U+003B", ";")}"`;
       }
     }
   }
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const element = document.getElementById(elementId);
 
       if (element) {
-        element.textContent = `[${requestHistory[i].time} (${requestHistory[i].status})] - "${requestHistory[i].request}"`;
+        element.textContent = `[${requestHistory[i].time} (${requestHistory[i].status})] - "${requestHistory[i].request.replace("U+003B", ";")}"`;
       }
     }
   }
