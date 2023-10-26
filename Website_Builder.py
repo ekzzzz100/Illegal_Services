@@ -20,6 +20,7 @@ def error(message: str):
     input()
     exit(1)
 
+
 def encode_unicode_encoding(string: str, type: str):
     if type == "path":
         replacements = {
@@ -43,6 +44,7 @@ def encode_unicode_encoding(string: str, type: str):
     for chars, replacement in replacements.items():
         string = string.replace(chars, replacement)
     return string
+
 
 def decode_unicode_encoding(string: str, type: str):
     if type == "path":
@@ -68,6 +70,7 @@ def decode_unicode_encoding(string: str, type: str):
         string = string.replace(chars, replacement)
     return string
 
+
 def encode_html_entity_encoding(string: str):
     replacements = {
         '&': '&amp;',
@@ -81,6 +84,7 @@ def encode_html_entity_encoding(string: str):
         string = string.replace(chars, replacement)
     return string
 
+
 def decode_html_entity_encoding(string: str):
     replacements = {
         '&amp;': '&',
@@ -92,6 +96,7 @@ def decode_html_entity_encoding(string: str):
     for chars, replacement in replacements.items():
         string = string.replace(chars, replacement)
     return string
+
 
 def encode_url_encoding(string: str):
     replacements = {
@@ -109,6 +114,7 @@ def encode_url_encoding(string: str):
         string = string.replace(chars, replacement)
     return string
 
+
 def decode_url_encoding(string: str):
     replacements = {
         '%25': '%',
@@ -125,6 +131,7 @@ def decode_url_encoding(string: str):
         string = string.replace(chars, replacement)
     return string
 
+
 def write_html_header() -> None:
     display_pathbar = _folder_path = ""
     for folder in bookmark_path__html_href_path.split("/"):
@@ -133,7 +140,7 @@ def write_html_header() -> None:
         else:
             _folder_path = folder
         html_text = encode_html_entity_encoding(decode_url_encoding(decode_unicode_encoding(folder, "folder")))
-        display_pathbar += f'<a href="/Illegal_Services/{_folder_path}/index.html">{html_text}</a> > '
+        display_pathbar += f'<a href="/Illegal_Services/{_folder_path}/index.html">{html_text}</a> &gt; '
     display_pathbar += "index.html"
     with bookmark_index_path__windows_path.open("a+", encoding="utf-8") as file:
         text = f"""
@@ -209,12 +216,16 @@ def write_html_header() -> None:
     if not bookmark_index_path__windows_path.is_file():
         error(f'ERROR (write_html_header): "{bookmark_index_path__windows_path}"')
 
+
 def write_html_footer(path: Path):
     with path.open("a+", encoding="utf-8") as file:
         text = """
                 </div>
 
-                <div id="counterText">
+                <div class="counter">
+                    <span id="counter-text">
+                        <!-- JavaScript counter text goes here -->
+                    </span>
                     <script src="/Illegal_Services/js/counter.js"></script>
                     <noscript>
                         <div class="javascript-disabled">
@@ -253,6 +264,7 @@ def write_html_footer(path: Path):
         file.write(text)
     if not path.is_file():
         error(f'ERROR (write_footer): "{bookmark_folder__href}" "{bookmark_folder__text}"')
+
 
 def create_folder_or_path(folder_or_path: Path):
     if not folder_or_path.is_dir():
@@ -359,10 +371,10 @@ create_folder_or_path(JS_COUNTER_PATH.parent.resolve())
 with JS_COUNTER_PATH.open("w", encoding="utf-8") as file:
     text = f"""
         document.addEventListener("DOMContentLoaded", function() {{
-          const counterTextElement = document.getElementById("counterText");
+          const counterText = document.getElementById("counter-text");
 
-          if (counterTextElement) {{
-            counterTextElement.innerHTML = "Updated: {datetime.date.today().strftime("%d/%m/%Y")}&nbsp;&nbsp;|&nbsp;&nbsp;{links_counter} links indexed.";
+          if (counterText) {{
+            counterText.textContent = "Updated: {datetime.date.today().strftime("%d/%m/%Y")}  |  {links_counter} links indexed.";
           }}
         }});
     """

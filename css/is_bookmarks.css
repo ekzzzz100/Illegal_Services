@@ -89,7 +89,7 @@ div.vertical-menu > a > i, img {
     margin-bottom: -2.2px;
     padding-right: 8px;
 }
-div#counterText {
+div.counter {
     width: fit-content;
     margin: 20px auto;
     text-align: center;

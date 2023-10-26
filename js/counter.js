@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const counterTextElement = document.getElementById("counterText");
+  const counterText = document.getElementById("counter-text");
 
-  if (counterTextElement) {
-    counterTextElement.innerHTML = "Updated: 26/10/2023&nbsp;&nbsp;|&nbsp;&nbsp;8380 links indexed.";
+  if (counterText) {
+    counterText.textContent = "Updated: 26/10/2023  |  8380 links indexed.";
   }
 });
