@@ -505,8 +505,26 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    console.log(formattedUserRequestLowerCase.length, htmlOverlayContent.outerHTML.length);
+
     if (previous_request === formattedUserRequestLowerCase) {
-      return [formattedUserRequest, "ALREADY_SENT_BEFORE"];
+      return [formattedUserRequest, "ERROR: ALREADY_SENT_BEFORE"];
+    }
+
+    if (formattedUserRequestLowerCase === "") {
+      return [formattedUserRequest, "ERROR: EMPTY_REQUEST"];
+    }
+
+    // The output displays the request along with it, so we should normally divide its value by 2.
+    // BUT the user input starts glitching at precisely 159912 on Firefox and at approximately 33050 on Brave.
+    // So to ensure consistency, I've reduced it down to 30000.
+    if (formattedUserRequestLowerCase.length > 30000) {
+      return [formattedUserRequest, "ERROR: REQUEST_USER_INPUT_EXCEEDS_MAX_CHARACTER_LIMIT"];
+    }
+
+    // I've figured that the PipeDream maximum's html body limit is set to 261873
+    if (htmlOverlayContent.outerHTML.length > 261873) {
+      return [formattedUserRequest, "ERROR: REQUEST_OUTPUT_EXCEEDS_MAX_CHARACTER_LIMIT"];
     }
 
     const headers = new Headers();
@@ -529,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
       previous_request = formattedUserRequestLowerCase;
       return [formattedUserRequest, "SENT"];
     } else {
-      return [formattedUserRequest, "NETWORK_ERROR"];
+      return [formattedUserRequest, "ERROR: NETWORK_ERROR"];
     }
   }
 });
