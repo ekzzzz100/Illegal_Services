@@ -505,8 +505,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    console.log(formattedUserRequestLowerCase.length, htmlOverlayContent.outerHTML.length);
-
     if (previous_request === formattedUserRequestLowerCase) {
       return [formattedUserRequest, "ERROR: ALREADY_SENT_BEFORE"];
     }
@@ -522,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return [formattedUserRequest, "ERROR: REQUEST_USER_INPUT_EXCEEDS_MAX_CHARACTER_LIMIT"];
     }
 
-    // I've figured that the PipeDream maximum's html body limit is set to 261873
+    // I've figured that the Pipedream maximum's html body limit is set to 261873
     if (htmlOverlayContent.outerHTML.length > 261873) {
       return [formattedUserRequest, "ERROR: REQUEST_OUTPUT_EXCEEDS_MAX_CHARACTER_LIMIT"];
     }
