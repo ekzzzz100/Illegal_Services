@@ -64,6 +64,15 @@ IS diligently maintains its database by updating those domains and removing defu
 
 <br>
 
+## **FAQ**
+
+If you have any questions, please take a look at both our [FAQ](https://illegal-services.github.io/Illegal_Services/faq.html), and [GitHub Discussions - Q&A](https://github.com/Illegal-Services/Illegal_Services/discussions/categories/q-a) pages.
+<br>
+If you couldn't find the answer you're looking for, feel free to ask here:
+
+- [GitHub Discussions](https://github.com/Illegal-Services/Illegal_Services/discussions/categories/q-a)
+- [Telegram Group](https://t.me/illegal_services_forum/24193)
+
 ## **Contributing**
 
 You can request websites to be added or removed from IS bookmarks database through:
