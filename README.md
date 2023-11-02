@@ -12,10 +12,12 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 
 - [Bookmarks Parser](https://github.com/Illegal-Services/bookmarks_parser) (by IB_U_Z_Z_A_R_Dl)
 - [DuplicateGitFilesChecker](https://github.com/Illegal-Services/DuplicateGitFilesChecker) (by IB_U_Z_Z_A_R_Dl)
+- [Firefox](https://www.mozilla.org/firefox/)
 - [Git](https://git-scm.com/)
 - [GitHub Desktop](https://desktop.github.com/)
 - [rentry](https://github.com/radude/rentry)
 - [System Informer](https://www.systeminformer.com/)
+- [Tor](https://www.torproject.org/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Website_Builder.py](https://github.com/Illegal-Services/Illegal_Services/blob/website/Website_Builder.py) (by IB_U_Z_Z_A_R_Dl)
 - DB_PRINT_TLD_DUPS.py (by IB_U_Z_Z_A_R_Dl)
