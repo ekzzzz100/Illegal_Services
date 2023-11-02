@@ -58,7 +58,11 @@ IS diligently maintains its database by updating those domains and removing defu
         <img alt="IS Windows App" src="https://i.imgur.com/Cd6mBVN.png" style="width: 50%;">
         <br>
         <a href="https://github.com/Illegal-Services/Illegal_Services/releases/latest/download/IS.Setup.exe">
-        <img src="https://img.shields.io/badge/Download%20Latest%20Version-2b3137?logo=github&label=GitHub">
+        <img src="https://img.shields.io/badge/Download%20latest%20installable%20version-2b3137?logo=github&label=GitHub">
+        </a>
+        <br>
+        <a href="https://github.com/Illegal-Services/Illegal_Services/archive/refs/heads/main.zip">
+        <img src="https://img.shields.io/badge/Download%20latest%20portable%20version-2b3137?logo=github&label=GitHub">
         </a>
 
         </div>
