@@ -73,4 +73,4 @@ It's currently under heavy developmment, but will soon be released and progressi
 - [W3C Validation](https://marketplace.visualstudio.com/items?itemName=Umoxfo.vscode-w3cvalidation)
 - [W3C Web Validator](https://marketplace.visualstudio.com/items?itemName=CelianRiboulet.webvalidator)
 
-I use even more VSCode extensions but those are specifically useful for working with anything related to IS project.
+\*I use even more VSCode extensions but those are specifically useful for working with anything related to IS project.
