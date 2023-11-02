@@ -6,12 +6,6 @@ Illegal Services is a project that provides different methods to conveniently ac
 <br>
 If you have an interest in watching movies, downloading applications, exploring ebooks, or engaging in cybersecurity activities, this is the perfect project for you.
 
-### **Deeper Dive in what IS does:**
-
-Piracy-related websites often need to change their domain names to evade DMCA, ISP and even government blocking.
-<br>
-IS diligently maintains its database by updating those domains and removing defunct websites.
-
 ## **Exploring IS Bookmarks database**
 
 - **The Website:**
@@ -59,6 +53,16 @@ IS diligently maintains its database by updating those domains and removing defu
 
 - **Explore Additional Methods:**
   For even further methods and detailed informations, check out the [tutorial](https://illegal-services.github.io/Illegal_Services/tutorial.html) page.
+
+<br>
+
+### **Deeper Dive in what IS does:**
+
+Piracy-related websites often need to change their domain names to evade DMCA, ISP and even government blocking.
+<br>
+IS diligently maintains its database by updating those domains and removing defunct websites.
+
+<br>
 
 ## **Contributing**
 
