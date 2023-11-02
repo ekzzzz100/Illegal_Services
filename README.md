@@ -4,7 +4,7 @@ In the near future, this branch will includes all the scripts that I'm using in 
 
 For now as I'm not yet ready to publish publicly those privately developped scripts, I will only link projects that I often use that are mostly made from other developpers.
 
-Stuff developped from myself are notted from my dev name: IB_U_Z_Z_A_R_Dl
+Stuff developped from myself are anotted from my dev name: IB_U_Z_Z_A_R_Dl
 
 So those that doesn't contain a clickable links are just still not yet ready to be published publicly.
 
