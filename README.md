@@ -15,7 +15,7 @@ IS diligently maintains its database by updating those domains and removing defu
 ## **Exploring IS Bookmarks database**
 
 - **The Website:**
-  It's the most convenient way to access IS database without any additional steps than using your browser directly.
+  The most convenient way to access IS database, requiring no additional steps beyond using your web browser directly.
   <div align="center">
   <img src="https://i.imgur.com/UVEutsE.png" alt="IS Bookmarks" style="width: 30%;">
   <br>
@@ -41,7 +41,7 @@ IS diligently maintains its database by updating those domains and removing defu
   <br>
 
 - **The Windows App:**
-  It's a powerful multi-tool that not only offers IS bookmarks database but also handfull functionalities such as the IP Address Lookup, IP Port scanning, IP Pingers, and some more.
+  A powerful multi-tool that not only offers IS bookmarks database but also handfull functionalities such as the IP Address Lookup, IP Port scanning, IP Pingers, and some more.
   <br>
   It is compatible with Windows 10 and 11 (x86/x64).
   <div align="center">
