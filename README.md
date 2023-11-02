@@ -66,7 +66,7 @@ IS diligently maintains its database by updating those domains and removing defu
 
 ## **FAQ**
 
-If you have any questions, please take a look at both our [FAQ](https://illegal-services.github.io/Illegal_Services/faq.html), and [GitHub Discussions - Q&A](https://github.com/Illegal-Services/Illegal_Services/discussions/categories/q-a) pages.
+If you have any questions, please take a look at both [FAQ](https://illegal-services.github.io/Illegal_Services/faq.html), and [GitHub Discussions - Q&A](https://github.com/Illegal-Services/Illegal_Services/discussions/categories/q-a) pages.
 <br>
 If you couldn't find the answer you're looking for, feel free to ask here:
 
