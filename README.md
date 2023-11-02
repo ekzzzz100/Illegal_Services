@@ -57,7 +57,7 @@ IS diligently maintains its database by updating those domains and removing defu
   </div>
   <br>
 
-- **Explore Additional Methods**
+- **Explore Additional Methods:**
   For even further methods and detailed informations, check out the [tutorial](https://illegal-services.github.io/Illegal_Services/tutorial.html) page.
 
 ## **Contributing**
