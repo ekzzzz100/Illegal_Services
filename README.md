@@ -1,6 +1,6 @@
 # Illegal_Services/dev-utilities
 
-In the near future, this branch will includes all the scripts that I'm using in order to maintain Illegal Services project in what is, it's current state. (this includes scanners for dead or changed domain scanners, utilizes that makes it easy to works all together with bookmarks, etc ...)
+In the near future, this branch will includes all the scripts that I'm using in order to maintain Illegal Services project in what is, it's current state. (this includes bookmarks scanners, utilizes that makes it easy to works with bookmarks, automatization script, etc ...)
 
 For now as I'm not yet ready to publish publicly those privately developped scripts, I will only link projects that I often use that are mostly made from other developpers.
 
