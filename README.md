@@ -11,6 +11,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 ## Scripts/Executables
 
 - [Bookmarks Parser](https://github.com/Illegal-Services/bookmarks_parser) (by IB_U_Z_Z_A_R_Dl)
+- [Visual Studio Code](https://code.visualstudio.com/)
 - [DuplicateGitFilesChecker](https://github.com/Illegal-Services/DuplicateGitFilesChecker) (by IB_U_Z_Z_A_R_Dl)
 - [Git](https://git-scm.com/)
 - [GitHub Desktop](https://desktop.github.com/)
