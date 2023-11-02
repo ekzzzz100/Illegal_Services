@@ -62,7 +62,7 @@ IS diligently maintains its database by updating those domains and removing defu
 
 ## **Contributing:**
 
-You can request websites to be added or removed from the IS bookmarks database through:
+You can request websites to be added or removed from IS bookmarks database through:
 * [GitHub Discussions](https://github.com/Illegal-Services/Illegal_Services/discussions/categories/website-requests)
 * [Telegram Group](https://t.me/illegal_services_forum/24191)
 * [IS Bookmarks website](https://illegal-services.github.io/Illegal_Services/Bookmarks%20Toolbar/Illegal%20Services/index.html)
