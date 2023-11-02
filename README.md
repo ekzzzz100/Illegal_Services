@@ -70,5 +70,5 @@ You can request websites to be added or removed from IS bookmarks database throu
 
 ## **Connect with us**
 
-- [![GitHub Badge](https://img.shields.io/badge/Illegal%20Services%20Discussions-2b3137?logo=github&label=GitHub)](https://github.com/Illegal-Services/Illegal_Services/discussions)
-- [![Telegram Badge](https://img.shields.io/badge/Illegal%20Services%20Group-2b3137?logo=telegram&label=Telegram)](https://t.me/illegal_services_forum)
+[![GitHub Badge](https://img.shields.io/badge/Illegal%20Services%20Discussions-2b3137?logo=github&label=GitHub)](https://github.com/Illegal-Services/Illegal_Services/discussions)
+[![Telegram Badge](https://img.shields.io/badge/Illegal%20Services%20Group-2b3137?logo=telegram&label=Telegram)](https://t.me/illegal_services_forum)
