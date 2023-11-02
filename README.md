@@ -11,12 +11,12 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 ## Scripts/Executables
 
 - [Bookmarks Parser](https://github.com/Illegal-Services/bookmarks_parser) (by IB_U_Z_Z_A_R_Dl)
-- [Visual Studio Code](https://code.visualstudio.com/)
 - [DuplicateGitFilesChecker](https://github.com/Illegal-Services/DuplicateGitFilesChecker) (by IB_U_Z_Z_A_R_Dl)
 - [Git](https://git-scm.com/)
 - [GitHub Desktop](https://desktop.github.com/)
 - [rentry](https://github.com/radude/rentry)
 - [System Informer](https://www.systeminformer.com/)
+- [Visual Studio Code](https://code.visualstudio.com/)
 - [Website_Builder.py](https://github.com/Illegal-Services/Illegal_Services/blob/website/Website_Builder.py) (by IB_U_Z_Z_A_R_Dl)
 - DB_PRINT_TLD_DUPS.py (by IB_U_Z_Z_A_R_Dl)
 - Git_Proxys_Updating_Automatization.bat (by IB_U_Z_Z_A_R_Dl)
