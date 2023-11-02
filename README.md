@@ -21,7 +21,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - IS.bookmarks_Remove_Favicons.py (by IB_U_Z_Z_A_R_Dl)
 - IS.bookmarks_Search_Failures.py (by IB_U_Z_Z_A_R_Dl)
 - scan_down_or_changed_domain_websites.py (by IB_U_Z_Z_A_R_Dl)
-- temp_scan_archived_domain_websites.py (by IB_U_Z_Z_A_R_Dl)
+- scan_archived_domain_websites.py (by IB_U_Z_Z_A_R_Dl)
 
 ## Firefox Web Extensions
 
