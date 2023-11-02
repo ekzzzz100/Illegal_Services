@@ -42,7 +42,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - [Tabby](https://addons.mozilla.org/firefox/addon/tabby-window-tab-manager/)
 - [TWP](https://addons.mozilla.org/firefox/addon/traduzir-paginas-web/)
 
-Ninjamarks will be a web extension aiming in various bookmarks operations.
+\*Ninjamarks will be a web extension aiming in various bookmarks operations.
 <br>
 It's currently under heavy developmment, but will soon be released and progressively receive new feature updates with time.
 
