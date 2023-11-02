@@ -3,17 +3,17 @@
 
 ## **Description:**
 
-Illegal Services is a project that provides different methods to conveniently access websites related to piracy (also known as warez) and cybersecurity. It serves as a comprehensive wiki cataloging the maximum of, "safe-to-use" websites across all regional languages.
+Illegal Services is a project that provides different methods to conveniently access websites related to piracy (also known as warez) and cybersecurity. It serves as a comprehensive wiki cataloging the maximum of "safe-to-use" websites across all regional languages.
 <br>
 If you have an interest in watching movies, downloading applications, exploring ebooks, or engaging in cybersecurity activities, this is the perfect project for you.
 
 - **Deeper Dive in what IS does:**
 
-Piracy-related websites often need to constantly change their domain names to evade DMCA, ISP and even government blocking.
+Piracy-related websites often need to change their domain names to evade DMCA, ISP and even government blocking.
 <br>
 IS diligently maintains its database by updating those domains and removing defunct websites.
 
-- **Exploring the IS Bookmarks Database:**
+- **Exploring IS Bookmarks database:**
 
     - **The Website:**
 
@@ -35,7 +35,7 @@ IS diligently maintains its database by updating those domains and removing defu
 
         <img src="https://i.imgur.com/7gpyo1e.png" alt="IS Web Extension" style="width: 30%;">
         <br>
-        <img alt="Static Badge" src="https://img.shields.io/badge/GitHub-Download%20Latest%20Version-2b3137?logo=github&label=GitHub&link=https%3A%2F%2Fgithub.com%2FIllegal-Services%2FIS.Bookmarks%2Freleases%2Flatest%2Fdownload%2FIS.Setup.exe">
+        <img alt="Static Badge" src="https://img.shields.io/badge/GitHub-IS%20Bookmarks-2b3137?logo=github&label=GitHub&link=https%3A%2F%2Fgithub.com%2FIllegal-Services%2FIS.Bookmarks%2Freleases%2Flatest%2Fdownload%2FIS.Setup.exe">
         <br>
         <img alt="Static Badge" src="https://img.shields.io/badge/Get%20this%20Extension-2b3137?logo=firefox&label=Firefox&link=https%3A%2F%2Faddons.mozilla.org%2Ffirefox%2Faddon%2Fillegal-services%2F">
 
