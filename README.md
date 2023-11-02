@@ -44,7 +44,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 
 \*Ninjamarks will be a web extension aiming in various bookmarks operations.
 <br>
-It's currently under heavy developmment, but will soon be released and progressively receive new feature updates with time.
+It's currently under heavy developmment, but will soon be released and progressively receive new feature updates over the time.
 
 ## Visual Studio Code Extensions\*
 
