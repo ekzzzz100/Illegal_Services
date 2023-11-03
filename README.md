@@ -60,7 +60,6 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - [HTML Checker](https://marketplace.visualstudio.com/items?itemName=Narlotl.html-validator)
 - [HTMLHint](https://marketplace.visualstudio.com/items?itemName=HTMLHint.vscode-htmlhint)
 - [JSDoc Generator](https://marketplace.visualstudio.com/items?itemName=crystal-spider.jsdoc-generator)
-- [JSDoc Generator](https://marketplace.visualstudio.com/items?itemName=kimlimjustin.jsdoc-generator)
 - [jsdoc](https://marketplace.visualstudio.com/items?itemName=lllllllqw.jsdoc)
 - [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server)
 - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
