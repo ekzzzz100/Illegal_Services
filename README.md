@@ -37,7 +37,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - [Dups Checker](https://addons.mozilla.org/firefox/addon/bookmark-dupes/)
 - [Illegal Services](https://addons.mozilla.org/firefox/addon/illegal-services/) (by IB_U_Z_Z_A_R_Dl)
 - [Link Gropgher](https://addons.mozilla.org/firefox/addon/link-gopher/)
-- [NinjaMarks](https://github.com/Illegal-Services/Ninjamarks)\* (by IB_U_Z_Z_A_R_Dl)
+- [NinjaMarks](https://github.com/Illegal-Services/Ninjamarks) (by IB_U_Z_Z_A_R_Dl)
 - [Open Bookmarks Recursively](https://addons.mozilla.org/firefox/addon/open-bookmarks-recursively/)
 - [Open Bookmarks Slowly](https://addons.mozilla.org/firefox/addon/open-bookmarks-slowly/)
 - [Snap Links Plus](https://addons.mozilla.org/firefox/addon/snaplinksplus/)
@@ -45,10 +45,6 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - [Tab Stash](https://addons.mozilla.org/firefox/addon/tab-stash/)
 - [Tabby](https://addons.mozilla.org/firefox/addon/tabby-window-tab-manager/)
 - [TWP](https://addons.mozilla.org/firefox/addon/traduzir-paginas-web/)
-
-\*Ninjamarks will be a web extension aiming in various bookmarks operations.
-<br>
-It's currently under heavy developmment, but will soon be released and progressively receive new feature updates over the time.
 
 ## Visual Studio Code Extensions\*
 
