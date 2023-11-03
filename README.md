@@ -37,7 +37,7 @@ So those that doesn't contain a clickable links are just still not yet ready to 
 - [Dups Checker](https://addons.mozilla.org/firefox/addon/bookmark-dupes/)
 - [Illegal Services](https://addons.mozilla.org/firefox/addon/illegal-services/) (by IB_U_Z_Z_A_R_Dl)
 - [Link Gropgher](https://addons.mozilla.org/firefox/addon/link-gopher/)
-- [NinjaMarks](https://github.com/Illegal-Services/Ninjamarks) (by IB_U_Z_Z_A_R_Dl)
+- [Ninjamarks](https://github.com/Illegal-Services/Ninjamarks) (by IB_U_Z_Z_A_R_Dl)
 - [Open Bookmarks Recursively](https://addons.mozilla.org/firefox/addon/open-bookmarks-recursively/)
 - [Open Bookmarks Slowly](https://addons.mozilla.org/firefox/addon/open-bookmarks-slowly/)
 - [Snap Links Plus](https://addons.mozilla.org/firefox/addon/snaplinksplus/)
