@@ -1,40 +1,40 @@
 div.text {
-    max-width: 90%;
+  max-width: 90%;
 }
 
 div.text > div.download-container {
-    margin: 40px auto 20px;
+  margin: 40px auto 20px;
 }
 
 div.text > div.download-container > a.btn {
-    background-color: #1e90ff;
-    padding: 12px 22px;
-    font-size: 20px;
+  background-color: #1e90ff;
+  padding: 12px 22px;
+  font-size: 20px;
 }
-div.text > div.download-container > a.btn:link, a.btn:visited {
-    color: #ffffff;
+div.text > div.download-container > a.btn:link,
+a.btn:visited {
+  color: #ffffff;
 }
 div.text > div.download-container > a.btn:hover {
-    background-color: #7200ff;
+  background-color: #7200ff;
 }
 
 div.text > span.images-padding {
-    margin: auto 10px;
+  margin: auto 10px;
 }
 
 footer {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
-
 @media screen and (max-width: 700px) {
-    div.text > div.download-container > a.btn {
-        background-color: #1e90ff;
-        padding: 8px 14px;
-        font-size: 14px;
-    }
+  div.text > div.download-container > a.btn {
+    background-color: #1e90ff;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
 
-    div.text {
-        font-size: 10px;
-    }
+  div.text {
+    font-size: 10px;
+  }
 }

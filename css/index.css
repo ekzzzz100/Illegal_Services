@@ -1,13 +1,12 @@
 div.text {
-    max-width: 90%;
+  max-width: 90%;
 }
 div.text img.scaled {
-    max-width: 75vw;
+  max-width: 75vw;
 }
 
-
 @media screen and (max-width: 750px) {
-    div.text {
-        font-size: 10px;
-    }
+  div.text {
+    font-size: 10px;
+  }
 }

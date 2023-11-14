@@ -1,63 +1,64 @@
 /* Global CSS file used for styling the different pages of the website */
 
-html, body {
-    background-color: #1c1c1c;
-    font-family: Arial, Helvetica, sans-serif;
-    word-wrap: break-word;
-    width: auto;
+html,
+body {
+  background-color: #1c1c1c;
+  font-family: Arial, Helvetica, sans-serif;
+  word-wrap: break-word;
+  width: auto;
 }
 
 nav.navbar {
-    text-align: center;
-    border: 1px solid #7200ff;
-    background-color: #555;
-    margin: 0 auto;
+  text-align: center;
+  border: 1px solid #7200ff;
+  background-color: #555;
+  margin: 0 auto;
 }
 nav.navbar > ul {
-    /* Reset default list styles */
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    /* Reset default list styles */
-    display: inline-block;
-    font-size: 20px;
-    background-color: #555;
-    max-width: 90%;
+  /* Reset default list styles */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  /* Reset default list styles */
+  display: inline-block;
+  font-size: 20px;
+  background-color: #555;
+  max-width: 90%;
 }
 nav.navbar > ul > li {
-    display: inline;
+  display: inline;
 }
 nav.navbar > ul > li.navbar-item-active {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #13a10e;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #13a10e;
 }
 nav.navbar > ul > li.navbar-item-active a {
-    text-decoration: underline solid 1px;
-    border: 1px solid #7200ff;
-    margin: -1px -1px -1px -1px;
+  text-decoration: underline solid 1px;
+  border: 1px solid #7200ff;
+  margin: -1px -1px -1px -1px;
 }
 nav.navbar > ul > li > a {
-    display: inline-block;
-    padding: 10px;
-    color: #ffffff;
-    max-width: fit-content;
-    max-height: fit-content;
+  display: inline-block;
+  padding: 10px;
+  color: #ffffff;
+  max-width: fit-content;
+  max-height: fit-content;
 }
 nav.navbar > ul > li > a:hover {
-    background-color: #000000;
-    color: #7200ff;
-    border: 1px solid #7200ff;
-    margin: -1px;
-    text-decoration: underline solid 1px;
-    transition: background-color 0.3s;
+  background-color: #000000;
+  color: #7200ff;
+  border: 1px solid #7200ff;
+  margin: -1px;
+  text-decoration: underline solid 1px;
+  transition: background-color 0.3s;
 }
 nav.navbar > ul > li > a > .navbar-item-text {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
-nav.navbar > ul > li > div#google-translate-element > div.skiptranslate.goog-te-gadget  {
-    padding: 4px 6px;
+nav.navbar > ul > li > div#google-translate-element > div.skiptranslate.goog-te-gadget {
+  padding: 4px 6px;
 }
 
 /* FEATURE DROPPED, I COULDN'T MANAGE TO MAKE IT WORKING.
@@ -78,44 +79,43 @@ div#google_translate_element:hover {
 */
 
 footer {
-    text-align: center;
-    border-top: thin solid #808080;
-    font-size: 16px;
-    color: #808080;
-    padding: 15px;
-    padding-bottom: 10px;
+  text-align: center;
+  border-top: thin solid #808080;
+  font-size: 16px;
+  color: #808080;
+  padding: 15px;
+  padding-bottom: 10px;
 }
 footer img {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    margin: -8px auto 4px;
-    padding: 12px;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  margin: -8px auto 4px;
+  padding: 12px;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 a:link {
-    color: #61b2ff;
+  color: #61b2ff;
 }
-a:visited  {
-    color: #61b2ff;
+a:visited {
+  color: #61b2ff;
 }
 a:hover {
-    color: #7200ff;
+  color: #7200ff;
 }
 
 .text {
-    text-align: center;
-    margin: 0 auto;
-    font-size: 20px;
-    color: #ffffff;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 20px;
+  color: #ffffff;
 }
 
-
 @media screen and (max-width: 1000px) {
-    footer {
-        font-size: 15px;
-    }
+  footer {
+    font-size: 15px;
+  }
 }

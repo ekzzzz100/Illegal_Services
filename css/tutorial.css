@@ -1,56 +1,55 @@
 div.text > hr.hr-centered {
-    margin-left: 21vw;
-    margin-right: 21vw;
-    border: 2px solid #707070;
+  margin-left: 21vw;
+  margin-right: 21vw;
+  border: 2px solid #707070;
 }
 
 div.text > div.tutorial-goal-header > h3 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 div.text > div.tutorial-current-methods-header > h4 {
-    margin: 20px auto 10px;
-    max-width: 90%;
+  margin: 20px auto 10px;
+  max-width: 90%;
 }
 
 div.text > ul {
-    list-style-position: inside;
-    padding-left: 0;
-    margin-left: 0;
+  list-style-position: inside;
+  padding-left: 0;
+  margin-left: 0;
 }
 div.text > ul > li {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 div.text > ul > li > span.tutorial-header {
-    font-size: 25px;
+  font-size: 25px;
 }
 div.text > ul > li > div.tutorial-text {
-    padding-top: 20px;
-    font-size: 20px;
+  padding-top: 20px;
+  font-size: 20px;
 }
 
-
 @media screen and (max-width: 700px) {
-    div.text > hr.hr-centered {
-        border: thin solid #707070;
-    }
+  div.text > hr.hr-centered {
+    border: thin solid #707070;
+  }
 
-    div.text > ul > li::marker {
-        font-size: 12px;
-    }
+  div.text > ul > li::marker {
+    font-size: 12px;
+  }
 
-    div.text > div.tutorial-goal-header > h3 {
-        font-size: 10px;
-    }
+  div.text > div.tutorial-goal-header > h3 {
+    font-size: 10px;
+  }
 
-    div.text > div.tutorial-current-methods-header > h4 {
-        font-size: 10px;
-    }
+  div.text > div.tutorial-current-methods-header > h4 {
+    font-size: 10px;
+  }
 
-    div.text > ul > li > span.tutorial-header {
-        font-size: 15px;
-    }
-    div.text > ul > li > div.tutorial-text {
-        font-size: 10px;
-    }
+  div.text > ul > li > span.tutorial-header {
+    font-size: 15px;
+  }
+  div.text > ul > li > div.tutorial-text {
+    font-size: 10px;
+  }
 }

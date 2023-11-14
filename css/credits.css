@@ -1,24 +1,23 @@
 div.text > div.credits-container {
-    margin: 0 auto;
-    max-width: 1000px;
-    width: 80%;
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 80%;
 }
-div.text > div.credits-container > div.credits-child  {
-    background-color: #000000;
-    margin-top: 20px;
-    padding: 10px;
+div.text > div.credits-container > div.credits-child {
+  background-color: #000000;
+  margin-top: 20px;
+  padding: 10px;
 }
 div.text > div.credits-container > div.credits-child > h2 {
-    border: 3px solid red;
+  border: 3px solid red;
 }
 div.text > div.credits-container > div.credits-child > div.credits-text {
-    text-align: left;
+  text-align: left;
 }
 
-
 @media screen and (max-width: 700px) {
-    div.text > div.credits-container {
-        display: block;
-        font-size: 10px;
-    }
+  div.text > div.credits-container {
+    display: block;
+    font-size: 10px;
+  }
 }
