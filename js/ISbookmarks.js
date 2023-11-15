@@ -76,6 +76,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Clear input Event Listeners stuff
+  document.addEventListener("mousemove", function (event) {
+    function checkAndToggleClearButton(inputElement, clearButton) {
+      if (isMouseInside(inputElement, event)) {
+        clearButton.style.display = inputElement.value === "" ? "none" : "block";
+      } else {
+        if (document.activeElement !== inputElement) {
+          clearButton.style.display = "none";
+        }
+      }
+    }
+
+    checkAndToggleClearButton(htmlSearchLinkInput, htmlClearSearchLinkInput);
+    checkAndToggleClearButton(htmlRequestLinkInput, htmlClearRequestLinkInput);
+  });
+
   htmlSearchLinkInput.addEventListener("input", () => {
     htmlClearSearchLinkInput.style.display = htmlSearchLinkInput.value === "" ? "none" : "block";
   });
@@ -99,15 +114,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   htmlClearSearchLinkInput.addEventListener("mousedown", () => {
     htmlSearchLinkInput.value = "";
-    setTimeout(() => {
-      htmlSearchLinkInput.focus();
-    }, 0);
+    htmlSearchLinkInput.focus();
   });
   htmlClearRequestLinkInput.addEventListener("mousedown", () => {
     htmlRequestLinkInput.value = "";
-    setTimeout(() => {
-      htmlRequestLinkInput.focus();
-    }, 0);
+    htmlRequestLinkInput.focus();
   });
 
   // Add an event listener that captures the Ctrl+A of only the overlay, when active.
@@ -549,6 +560,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+/**
+ * @param {object} element
+ * @param {object} event
+ */
+function isMouseInside(element, event) {
+  const rect = element.getBoundingClientRect();
+
+  // prettier-ignore
+  return (
+    event.clientX >= rect.left &&
+    event.clientX <= rect.right &&
+    event.clientY >= rect.top &&
+    event.clientY <= rect.bottom
+  );
+}
 
 /**
  * Set the IS bookmarks database in an array.
