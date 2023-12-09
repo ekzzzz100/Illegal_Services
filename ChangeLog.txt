@@ -6,6 +6,9 @@ https://t.me/illegal_services_forum
 https://t.me/illegal_services
 https://github.com/Illegal-Services/Illegal_Services
 
+v6.1.9.6 - 09/12/2023
+* FIXED a bug where using Portmaster application would fails checking for internet in IS. (thanks @FearlessOfficial for bug report)
+
 v6.1.9.5 - 30/09/2023
 * IMPROVED source code from a bug-fix introduced in patch v6.1.9.4 - 25/08/2023
 - REMOVED Main Menu FAQ and Tutorial. Instead it will now start IS website targeted pages, that way it is easy for me to maintain it up-to-date on both IS Windows application and IS website.
