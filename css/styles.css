@@ -61,6 +61,29 @@ nav.navbar > ul > li > div#google-translate-element > div.skiptranslate.goog-te-
   padding: 4px 6px;
 }
 
+/* CHRISTMAS THEME START */
+nav.navbar {
+  background-color: #ffffff00;
+}
+nav.navbar > ul {
+  background-color: #ffffff00;
+}
+nav.navbar {
+  position: relative;
+  /* Other navbar styles */
+  background-image: url("/Illegal_Services/images/pure-css-snow-animation.gif");
+}
+/* Snowfall animation */
+@keyframes snowfall {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1000px; /* Adjust the Y-axis distance for snowfall */
+  }
+}
+/* CHRISTMAS THEME END */
+
 /* FEATURE DROPPED, I COULDN'T MANAGE TO MAKE IT WORKING.
 div#google_translate_element {
     display: inline-block;
