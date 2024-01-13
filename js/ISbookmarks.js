@@ -1,4 +1,5 @@
 import "/Illegal_Services/plugins/DOMPurify-3.0.8/purify.min.js";
+import { makeWebRequest } from "/Illegal_Services/js/makeWebRequest.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const htmlSearchLinkInput = document.getElementById("search-link-input");
@@ -697,19 +698,6 @@ function sanitizeString(string) {
   const formattedString = string.replace(/[\u200E\u200F\u202A-\u202E]/gi, "");
   DOMPurify.sanitize(formattedString, { USE_PROFILES: { html: true } });
   return formattedString;
-}
-
-/**
- * Function that performs a web request using the Fetch API.
- * @param {string} url - The URL to which the request should be made.
- * @param {Object} options - Optional request configuration options.
- */
-async function makeWebRequest(url, options) {
-  try {
-    return await fetch(url, options);
-  } catch (error) {
-    console.error("Web request error:", error);
-  }
 }
 
 function getCurrentTime() {

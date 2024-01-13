@@ -92,6 +92,16 @@ img {
 div.counter {
   width: fit-content;
   margin: 20px auto;
+  padding: 2px;
+  text-align: center;
+  background: #ffc0cb;
+  color: #000000;
+}
+
+div.visitors-counter {
+  width: fit-content;
+  margin: 20px auto;
+  padding: 2px;
   text-align: center;
   background: #ffc0cb;
   color: #000000;
