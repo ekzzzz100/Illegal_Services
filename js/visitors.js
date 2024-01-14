@@ -14,6 +14,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const response = await makeWebRequest("https://illegal-services.com/counter", requestOptions);
   if (response.ok) {
-    htmlVisitorsCounterText.innerHTML = `Total visitors since 14/01/24 (beta):<br>[${await response.text()}]`;
+    const jsonCountersResponse = await response.json();
+    const totalCounter = jsonCountersResponse.total_counter;
+    const dailyCounter = jsonCountersResponse.daily_counter;
+
+    htmlVisitorsCounterText.innerHTML = `Total visitors since 14/01/24:<br>[${totalCounter}]<br>Today's visitors:<br>[${dailyCounter}]`;
   }
 });
