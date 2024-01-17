@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   const response = await makeWebRequest("https://illegal-services.com/counter", requestOptions);
   if (response.ok) {
     const jsonCountersResponse = await response.json();
-    const totalCounter = jsonCountersResponse.total_counter;
-    const dailyCounter = jsonCountersResponse.daily_counter;
+    const totalVisitors = jsonCountersResponse.total_visitors;
+    const todayVisitors = jsonCountersResponse.today_visitors;
 
-    htmlVisitorsCounterText.innerHTML = `Total visitors since 14/01/24:<br>[${totalCounter}]<br>Today's visitors:<br>[${dailyCounter}]`;
+    htmlVisitorsCounterText.innerHTML = `Total visitors since 14/01/24:<br>[${totalVisitors}]<br>Today's visitors:<br>[${todayVisitors}]`;
   }
 });
