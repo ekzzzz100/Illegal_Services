@@ -1,4 +1,4 @@
-import "/Illegal_Services/plugins/DOMPurify-3.0.8/purify.min.js";
+import "/Illegal_Services/plugins/DOMPurify-3.0.9/purify.min.js";
 import { makeWebRequest } from "/Illegal_Services/js/makeWebRequest.js";
 
 document.addEventListener("DOMContentLoaded", function () {
